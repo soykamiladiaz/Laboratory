@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ser coherente conmigo · Plan de 12 semanas</title>
+<style>
+:root{
+  --bg:#f7f4ef; --panel:#fffdfa; --ink:#241f1b; --ink-soft:#5d554d; --ink-faint:#8d8378;
+  --line:#e6dfd4; --line-soft:#efe9e0;
+  --f1:#c2683f; --f2:#5f7f6a; --f3:#7a6ba8; --f4:#b0863a;
+  --accent:#a8523a; --ok:#4e7a5c; --warn:#a8623a;
+  --radius:14px; --shadow:0 1px 2px rgba(36,31,27,.04),0 8px 24px rgba(36,31,27,.05);
+}
+html[data-theme="dark"]{
+  --bg:#171513; --panel:#201d1a; --ink:#f0eae2; --ink-soft:#b8afa4; --ink-faint:#8b8175;
+  --line:#332e29; --line-soft:#2a2622;
+  --f1:#e08a5c; --f2:#84a894; --f3:#a294cf; --f4:#d3a95c; --accent:#e08a5c;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.25);
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,Helvetica,Arial,sans-serif;
+  font-size:15.5px;line-height:1.65;-webkit-font-smoothing:antialiased}
+h1,h2,h3,h4{line-height:1.25;margin:0;font-weight:650;letter-spacing:-.01em}
+a{color:var(--accent)}
+button{font:inherit;cursor:pointer}
+
+/* ---------- layout ---------- */
+.app{display:flex;min-height:100vh}
+.side{width:262px;flex:0 0 262px;background:var(--panel);border-right:1px solid var(--line);
+  position:sticky;top:0;height:100vh;overflow-y:auto;padding:22px 16px 30px;z-index:20}
+.side .brand{font-size:16px;font-weight:700;letter-spacing:-.02em;margin-bottom:2px}
+.side .brand small{display:block;font-size:11.5px;font-weight:500;color:var(--ink-faint);letter-spacing:0;margin-top:3px}
+.nav{margin-top:20px;display:flex;flex-direction:column;gap:2px}
+.nav a{display:flex;align-items:center;gap:9px;padding:8px 10px;border-radius:9px;text-decoration:none;
+  color:var(--ink-soft);font-size:14px;transition:.13s}
+.nav a:hover{background:var(--line-soft);color:var(--ink)}
+.nav a.on{background:var(--ink);color:var(--panel);font-weight:600}
+.nav a .dot{width:7px;height:7px;border-radius:50%;flex:0 0 7px}
+.nav .sep{font-size:10.5px;text-transform:uppercase;letter-spacing:.09em;color:var(--ink-faint);
+  margin:16px 0 6px;padding-left:10px;font-weight:650}
+.main{flex:1;min-width:0;padding:38px 44px 100px;max-width:900px}
+@media(max-width:900px){
+  .app{flex-direction:column}
+  .side{position:static;width:100%;height:auto;flex:none;border-right:0;border-bottom:1px solid var(--line);padding:16px}
+  .nav{flex-direction:row;flex-wrap:wrap;gap:5px}
+  .nav .sep{display:none}
+  .nav a{font-size:13px;padding:6px 10px;border:1px solid var(--line);border-radius:99px}
+  .main{padding:24px 18px 80px}
+}
+
+/* ---------- sidebar progress ---------- */
+.sideprog{margin-top:16px;padding:13px;border:1px solid var(--line);border-radius:12px;background:var(--bg)}
+.sideprog .lbl{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-faint);font-weight:650}
+.sideprog .big{font-size:27px;font-weight:700;letter-spacing:-.03em;margin:2px 0 7px}
+.bar{height:7px;background:var(--line);border-radius:99px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--accent);border-radius:99px;transition:width .45s cubic-bezier(.4,0,.2,1)}
+.sideprog .sub{font-size:11.5px;color:var(--ink-faint);margin-top:6px}
+
+/* ---------- page ---------- */
+.page{display:none;animation:fade .28s ease}
+.page.on{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.eyebrow{font-size:11.5px;text-transform:uppercase;letter-spacing:.11em;font-weight:700;color:var(--accent)}
+.ph{margin:8px 0 6px;font-size:33px;letter-spacing:-.028em}
+.psub{color:var(--ink-soft);font-size:16px;max-width:62ch}
+.hr{height:1px;background:var(--line);margin:26px 0}
+
+.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:20px 22px;margin:14px 0;box-shadow:var(--shadow)}
+.callout{border-left:3px solid var(--accent);background:var(--panel);border-radius:0 12px 12px 0;padding:14px 18px;margin:16px 0;font-size:14.5px;color:var(--ink-soft)}
+.callout b{color:var(--ink)}
+.warnbox{border-left-color:var(--warn);background:color-mix(in srgb,var(--warn) 6%,var(--panel))}
+
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px}
+.stat{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.stat .n{font-size:26px;font-weight:700;letter-spacing:-.03em;line-height:1.1}
+.stat .t{font-size:12px;color:var(--ink-faint);text-transform:uppercase;letter-spacing:.06em;font-weight:600;margin-top:3px}
+
+/* ---------- activity ---------- */
+.act{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);margin:12px 0;overflow:hidden;box-shadow:var(--shadow);transition:.18s}
+.act.done{border-color:color-mix(in srgb,var(--ok) 40%,var(--line))}
+.act.done .ahead h3{text-decoration:line-through;text-decoration-color:var(--ink-faint);text-decoration-thickness:1px}
+.ahead{display:flex;gap:13px;align-items:flex-start;padding:16px 18px;cursor:pointer}
+.ahead:hover{background:var(--line-soft)}
+.chk{flex:0 0 22px;width:22px;height:22px;border:1.6px solid var(--line);border-radius:7px;margin-top:2px;
+  display:grid;place-items:center;background:var(--bg);transition:.15s}
+.chk:hover{border-color:var(--ok)}
+.chk.on{background:var(--ok);border-color:var(--ok)}
+.chk svg{width:13px;height:13px;stroke:#fff;stroke-width:3;fill:none;opacity:0;transition:.15s}
+.chk.on svg{opacity:1}
+.ahead h3{font-size:16.5px;margin-bottom:5px}
+.tags{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.tag{font-size:11px;padding:2.5px 8px;border-radius:99px;border:1px solid var(--line);color:var(--ink-faint);
+  background:var(--bg);font-weight:600;letter-spacing:.01em}
+.tag.marco{border-color:transparent;background:color-mix(in srgb,var(--phc) 13%,transparent);color:var(--phc)}
+.tag.nuevo{background:color-mix(in srgb,var(--ok) 14%,transparent);border-color:transparent;color:var(--ok)}
+.tag.enr{background:color-mix(in srgb,var(--f4) 16%,transparent);border-color:transparent;color:var(--f4)}
+.caret{margin-left:auto;flex:0 0 auto;color:var(--ink-faint);font-size:12px;transition:.2s;padding-top:4px}
+.act.open .caret{transform:rotate(180deg)}
+.abody{display:none;padding:2px 18px 20px 53px;border-top:1px solid var(--line-soft)}
+.act.open .abody{display:block}
+@media(max-width:640px){.abody{padding-left:18px}}
+.lab{font-size:11px;text-transform:uppercase;letter-spacing:.1em;font-weight:700;color:var(--ink-faint);margin:18px 0 6px}
+.why{font-size:14.5px;color:var(--ink-soft)}
+ol.steps{margin:0;padding-left:0;list-style:none;counter-reset:s}
+ol.steps li{counter-increment:s;position:relative;padding:5px 0 5px 30px;font-size:14.5px}
+ol.steps li:before{content:counter(s);position:absolute;left:0;top:6px;width:20px;height:20px;border-radius:50%;
+  background:var(--line-soft);color:var(--ink-soft);font-size:11px;font-weight:700;display:grid;place-items:center}
+.meta{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}
+.meta .m{flex:1 1 220px;background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:10px 13px}
+.meta .m .k{font-size:10.5px;text-transform:uppercase;letter-spacing:.09em;color:var(--ink-faint);font-weight:700}
+.meta .m .v{font-size:14px;margin-top:2px}
+.note{border-left:3px solid var(--warn);background:color-mix(in srgb,var(--warn) 7%,transparent);
+  padding:10px 14px;border-radius:0 8px 8px 0;font-size:13.5px;color:var(--ink-soft);margin-top:14px}
+textarea,input[type=text],input[type=date],input[type=number],select{
+  width:100%;background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:10px 12px;
+  color:var(--ink);font:inherit;font-size:14px;resize:vertical}
+textarea:focus,input:focus,select:focus{outline:2px solid color-mix(in srgb,var(--accent) 35%,transparent);outline-offset:1px;border-color:var(--accent)}
+.saved{font-size:11.5px;color:var(--ok);opacity:0;transition:.3s;font-weight:600}
+.saved.show{opacity:1}
+
+/* ---------- evidence ---------- */
+.drop{border:1.6px dashed var(--line);border-radius:11px;padding:16px;text-align:center;color:var(--ink-faint);
+  font-size:13.5px;transition:.15s;cursor:pointer}
+.drop:hover,.drop.over{border-color:var(--accent);color:var(--accent);background:color-mix(in srgb,var(--accent) 4%,transparent)}
+.evs{display:flex;flex-wrap:wrap;gap:9px;margin-top:11px}
+.ev{position:relative;width:96px;border:1px solid var(--line);border-radius:9px;overflow:hidden;background:var(--bg)}
+.ev img{width:100%;height:70px;object-fit:cover;display:block}
+.ev .fx{height:70px;display:grid;place-items:center;font-size:22px}
+.ev .nm{font-size:9.5px;padding:4px 5px;color:var(--ink-faint);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ev .rm{position:absolute;top:3px;right:3px;background:rgba(0,0,0,.62);color:#fff;border:0;border-radius:50%;
+  width:19px;height:19px;font-size:12px;line-height:1;display:grid;place-items:center}
+
+/* ---------- buttons ---------- */
+.btn{display:inline-flex;align-items:center;gap:7px;background:var(--ink);color:var(--panel);border:0;
+  padding:9px 16px;border-radius:9px;font-size:13.5px;font-weight:600;transition:.15s}
+.btn:hover{opacity:.87;transform:translateY(-1px)}
+.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.btn.ghost:hover{background:var(--line-soft)}
+.btn.sm{padding:6px 12px;font-size:12.5px}
+.btnrow{display:flex;flex-wrap:wrap;gap:9px;margin-top:14px}
+
+/* ---------- tables ---------- */
+table{width:100%;border-collapse:collapse;font-size:14px;margin-top:6px}
+th{text-align:left;font-size:10.5px;text-transform:uppercase;letter-spacing:.09em;color:var(--ink-faint);
+  padding:8px 10px;border-bottom:1px solid var(--line);font-weight:700}
+td{padding:11px 10px;border-bottom:1px solid var(--line-soft);vertical-align:top}
+tr:last-child td{border-bottom:0}
+.wk{display:inline-grid;place-items:center;width:26px;height:26px;border-radius:8px;background:var(--line-soft);
+  font-size:12.5px;font-weight:700}
+
+/* ---------- scales ---------- */
+.q{display:flex;gap:12px;align-items:flex-start;padding:11px 0;border-bottom:1px solid var(--line-soft)}
+.q .qt{flex:1;font-size:14.5px}
+.opts{display:flex;gap:4px;flex:0 0 auto}
+.opts label{cursor:pointer}
+.opts input{display:none}
+.opts span{display:grid;place-items:center;width:31px;height:31px;border:1px solid var(--line);border-radius:8px;
+  font-size:12px;font-weight:600;color:var(--ink-faint);transition:.13s;background:var(--bg)}
+.opts input:checked+span{background:var(--accent);border-color:var(--accent);color:#fff}
+.score{background:var(--bg);border:1px solid var(--line);border-radius:11px;padding:14px 16px;margin-top:14px;
+  display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.score .n{font-size:31px;font-weight:700;letter-spacing:-.03em}
+.spark{width:100%;height:110px}
+.tabs{display:flex;gap:6px;margin:14px 0 4px;flex-wrap:wrap}
+.tabs button{background:var(--bg);border:1px solid var(--line);border-radius:99px;padding:6px 14px;font-size:13px;font-weight:600;color:var(--ink-soft)}
+.tabs button.on{background:var(--ink);color:var(--panel);border-color:var(--ink)}
+
+ul.plain{margin:8px 0;padding-left:20px}
+ul.plain li{padding:3px 0;font-size:14.5px}
+.tpl-fields{margin:0;padding-left:20px;font-size:14px;color:var(--ink-soft)}
+.tpl-fields li{padding:3px 0}
+
+.themebtn{position:fixed;right:18px;bottom:18px;width:42px;height:42px;border-radius:50%;background:var(--panel);
+  border:1px solid var(--line);box-shadow:var(--shadow);display:grid;place-items:center;font-size:17px;z-index:60}
+.toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);background:var(--ink);color:var(--panel);
+  padding:11px 20px;border-radius:10px;font-size:13.5px;font-weight:600;opacity:0;pointer-events:none;transition:.25s;z-index:70}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+
+@media print{
+  .side,.themebtn,.btnrow,.drop,.caret,.tabs{display:none!important}
+  .page{display:block!important;page-break-before:always}
+  .page:first-of-type{page-break-before:auto}
+  .abody{display:block!important}
+  .main{max-width:none;padding:0}
+  body{background:#fff;font-size:11pt}
+  .act,.card{break-inside:avoid;box-shadow:none}
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="side">
+    <div class="brand">Ser coherente conmigo<small>Plan de entrenamiento · 12 semanas</small></div>
+    <div class="sideprog">
+      <div class="lbl">Progreso total</div>
+      <div class="big" id="pctBig">0%</div>
+      <div class="bar"><i id="barAll" style="width:0"></i></div>
+      <div class="sub" id="subAll">0 de 0 prácticas</div>
+    </div>
+    <nav class="nav" id="nav"></nav>
+  </aside>
+  <main class="main" id="main"></main>
+</div>
+<button class="themebtn" id="themeBtn" title="Cambiar tema">◐</button>
+<div class="toast" id="toast"></div>
+<input type="file" id="filepick" multiple style="display:none">
+
+<script>
+const DATA = {"meta": {"titulo": "Ser coherente conmigo", "subtitulo": "Plan de entrenamiento psicológico de 12 semanas", "bajada": "Autoestima · Límites · Regulación emocional · Expresión de necesidades", "version": "1.0", "fecha": "Agosto 2026"}, "intro": "Este plan toma tu estructura original de cuatro fases y le añade, en cada punto, la técnica clínica concreta que la investigación respalda: de dónde viene, qué hace en tu sistema nervioso, cómo se practica y en qué dosis. El principio de fondo es simple y está bien documentado: la autoestima no se construye repitiéndote frases bonitas, sino acumulando evidencia conductual de que te tratas como alguien que te importa. Por eso todo aquí tiene un \"hazlo\", una frecuencia y una señal medible.", "aviso": "Este material es psicoeducativo. No sustituye tratamiento con un profesional de salud mental. Las técnicas marcadas con ⚠ (rescripting de imágenes, exposición al espejo, trabajo con memoria traumática) idealmente se hacen acompañada. Si aparecen desbordamiento sostenido, disociación, ideación autolesiva o si el malestar interfiere con tu funcionamiento, busca a un profesional: eso no es un fracaso del plan, es usar bien la información.", "fases": [{"id": "f1", "num": 1, "titulo": "El cimiento", "sub": "Autoconocimiento y aceptación", "semanas": "Semanas 1–3", "objetivo": "Saber quién eres antes de intentar cambiarte. Separar lo que realmente eres de lo que te enseñaron a creer que eras.", "principio": "No puedes amar lo que no conoces, y no puedes cambiar lo que no aceptas primero. La aceptación no es resignación: es dejar de gastar energía en pelear con el punto de partida.", "actividades": [{"id": "f1a1", "titulo": "Mapeo de identidad", "marco": "Entrevista narrativa · Terapia narrativa (White & Epston)", "origen": "enriquecido", "porque": "Conocerte con curiosidad y sin juicio activa el modo de procesamiento reflexivo (corteza prefrontal medial) en lugar del evaluativo. La pregunta cambia de «¿estoy bien o mal?» a «¿cómo soy?», que es una pregunta sin castigo posible.", "pasos": ["Consigue un cuaderno dedicado solo a esto. No uses el celular.", "Responde 3 preguntas por día durante 21 días, en escalera de profundidad: trivial (¿qué color me gusta?, ¿qué comida detesto?), luego relacional (¿qué tipo de personas evito y por qué?, ¿con quién me siento yo misma?), luego nuclear (¿de qué tengo miedo real?, ¿qué me avergüenza?, ¿qué necesito y nunca pido?).", "Regla de oro: escribe la primera respuesta que aparezca, no la que suena mejor.", "Al final de cada semana, relee y subraya lo que te sorprendió."], "dosis": "15 min/día · 21 días", "senal": "Puedes responder «¿qué necesitas?» en menos de 10 segundos sin consultar cómo se sentiría el otro.", "nota": ""}, {"id": "f1a2", "titulo": "Brújula de valores", "marco": "ACT — Terapia de Aceptación y Compromiso (Hayes)", "origen": "nuevo", "porque": "Los valores son la única referencia estable para tomar decisiones cuando la emoción está alta. A diferencia de las metas, no se cumplen: se habitan. En ACT, la clarificación de valores es el paso previo obligatorio a la acción comprometida, y es lo que convierte «poner un límite» de un acto de rabia en un acto de coherencia.", "pasos": ["Escribe 10 valores candidatos en tarjetas (honestidad, autonomía, cuidado, creatividad, justicia, lealtad, aprendizaje, salud, contribución, libertad, intimidad, orden...).", "Ordénalas por importancia real, no aspiracional. Quédate con 5.", "Para cada uno de esos 5, califica de 0 a 10: qué tan importante es, y qué tan consistente ha sido tu conducta con él en los últimos 30 días.", "La brecha entre esos dos números es tu mapa de trabajo. La incoherencia que sientes vive exactamente ahí.", "Escribe una frase por valor: «Cuando actúo desde [valor], yo ______»."], "dosis": "Una sesión de 45 min · revisar cada 4 semanas", "senal": "Puedes nombrar tus 5 valores de memoria y usarlos como criterio en una decisión concreta esta semana.", "nota": ""}, {"id": "f1a3", "titulo": "Exposición al espejo (versión clínica)", "marco": "Exposición corporal no evaluativa · TCC para imagen corporal", "origen": "enriquecido", "porque": "Tu versión original es correcta, pero el protocolo clínico añade lo que la hace funcionar: descripción neutra y objetiva en lugar de juicio, y permanencia hasta que la ansiedad baja sola. Los metaanálisis muestran efecto medio sobre la insatisfacción corporal y efecto grande sobre las conductas de evitación (comprobación compulsiva, esconderse). Lo que produce el cambio es la habituación, no el elogio.", "pasos": ["Espejo de cuerpo entero, sin ropa, luz normal, sin público, sin celular.", "Recorre el cuerpo de arriba abajo describiendo en voz alta y en lenguaje descriptivo, no valorativo: «hombros redondeados, piel más clara en el brazo interno» — nunca «feo», «horrible», «me sobra».", "Dedica el mismo tiempo a cada zona, incluidas las que evitas. Prohibido saltarse partes.", "Añade la capa funcional: qué hace esa parte por ti («estas piernas me llevaron a...»).", "Quédate 15–20 minutos, aunque suba la incomodidad. Termina solo cuando la ansiedad haya bajado, no en el pico.", "Registra ansiedad 0–10 al inicio, a la mitad y al final. Ese descenso dentro de la sesión es el aprendizaje."], "dosis": "15–20 min · 2 veces por semana · 6–8 sesiones", "senal": "La ansiedad inicial de la sesión 6 es menor que la de la sesión 1, y dejas de evitar espejos o fotos.", "nota": "⚠ Si hay antecedente de trastorno de conducta alimentaria, dismorfia corporal o disociación, hazlo con acompañamiento profesional. Se han reportado eventos adversos en exposición sin guía."}, {"id": "f1a4", "titulo": "Desmontar etiquetas + defusión cognitiva", "marco": "ACT (defusión) + Terapia de Esquemas (Young)", "origen": "enriquecido", "porque": "Tu ejercicio identifica la etiqueta; la defusión te suelta de ella. La diferencia entre «soy ansiosa» y «estoy notando el pensamiento de que soy ansiosa» es que la primera es identidad y la segunda es un evento mental observable. Las etiquetas suelen ser la superficie de un esquema temprano: abandono, defectuosidad, privación emocional, subyugación, autosacrificio o estándares inflexibles.", "pasos": ["Lista cómo te defines. 10 frases que empiecen por «soy».", "Al lado de cada una escribe: ¿quién dijo esto primero? ¿mamá, papá, un profesor, una pareja, un grupo?", "Reformula: «Estoy teniendo el pensamiento de que soy ______». Dilo en voz alta.", "Defusión por repetición: toma la palabra más dolorosa (ej. «inútil») y repítela en voz alta durante 45 segundos seguidos. Pierde significado y se vuelve sonido. Eso es el punto.", "Rastrea el esquema: pregunta «¿y si eso fuera cierto, qué significaría de mí?» tres veces seguidas (técnica del descenso en flecha) hasta llegar a la creencia nuclear.", "Escribe la creencia nuclear en una sola frase. Esa frase es lo que vas a desarmar durante 12 semanas."], "dosis": "Sesión de 60 min · revisar en semana 6 y 12", "senal": "Puedes nombrar tu creencia nuclear en una frase y detectarla en tiempo real cuando se activa.", "nota": ""}, {"id": "f1a5", "titulo": "Escritura expresiva (protocolo Pennebaker)", "marco": "Paradigma de escritura expresiva · Psicología de la salud", "origen": "nuevo", "porque": "Uno de los protocolos más replicados en psicología: escribir sobre una experiencia emocional difícil, sin filtro, en sesiones cortas y consecutivas, produce mejoras en malestar psicológico y salud física. El mecanismo es la organización narrativa: convertir una experiencia sensorial y caótica en un relato con estructura reduce su carga.", "pasos": ["4 días consecutivos. 20 minutos cada uno. Sin parar de escribir, sin corregir, sin importar la ortografía.", "Día 1–2: el hecho difícil, tal cual, con todo el detalle emocional.", "Día 3: qué te enseñó, qué perdiste, qué se rompió.", "Día 4: cómo lo contarías hoy si tuvieras que explicárselo a alguien que te quiere.", "Nadie más lo lee. Puedes destruirlo después."], "dosis": "20 min × 4 días consecutivos · una vez por fase", "senal": "Al releer, el relato del día 4 tiene más causa-efecto y menos víctima que el del día 1.", "nota": "Es normal sentirte peor las primeras horas tras escribir. El beneficio aparece en días-semanas, no en minutos."}, {"id": "f1a6", "titulo": "Pausa de autocompasión", "marco": "Mindful Self-Compassion (Neff & Germer) · CFT (Gilbert)", "origen": "nuevo", "porque": "Los metaanálisis de ensayos controlados sobre intervenciones de autocompasión muestran aumentos de autocompasión y reducciones de ansiedad, depresión, rumiación y autocrítica con tamaños de efecto medios a grandes. A diferencia de la autoestima, la autocompasión no depende de compararte bien con otros, por lo que no colapsa cuando fallas. Para alguien que quiere autoestima estable, esta es la base más sólida.", "pasos": ["En el momento de dolor, ponte una mano en el pecho o el abdomen. El contacto físico propio activa el sistema de calma (oxitocina, tono vagal).", "Paso 1 — atención plena: «Esto duele. Este es un momento de sufrimiento». Nombras el hecho sin dramatizarlo ni minimizarlo.", "Paso 2 — humanidad común: «No soy la única. Muchas mujeres sienten esto». Rompe el aislamiento, que es lo que multiplica el dolor.", "Paso 3 — amabilidad: «¿Qué necesito escuchar ahora mismo?». Dítelo con el tono con que se lo dirías a tu mejor amiga.", "Versión larga: escríbete una carta desde la perspectiva de alguien que te quiere incondicionalmente y conoce toda tu historia. 20 minutos."], "dosis": "Micro-versión: cada vez que aparezca autocrítica · Carta: 1 vez por semana", "senal": "El tono de tu voz interna al equivocarte cambia antes de que lo tengas que forzar.", "nota": ""}, {"id": "f1a7", "titulo": "Mapa corporal de emociones", "marco": "Entrenamiento interoceptivo · Body scan (MBSR, Kabat-Zinn)", "origen": "nuevo", "porque": "No puedes regular lo que no detectas. La interocepción —leer las señales internas del cuerpo— es la habilidad base de la regulación emocional, y se entrena. La mayoría de las crisis «repentinas» llevaban 40 minutos avisando en el cuerpo antes de estallar.", "pasos": ["Body scan guiado de 10–20 min: recorre el cuerpo por segmentos, notando sensación sin cambiarla.", "Dibuja una silueta humana en tu cuaderno. Cada vez que identifiques una emoción, marca dónde la sientes y con qué textura (presión, calor, vacío, nudo, hormigueo).", "Construye tu diccionario personal: «pecho apretado + mandíbula = miedo al abandono», «estómago hueco = necesito contacto», «hombros arriba = estoy complaciendo».", "Meta: detectar la señal corporal antes de la interpretación mental."], "dosis": "10 min/día · escaneo rápido 3 veces al día (mañana, tarde, noche)", "senal": "Detectas la activación en el cuerpo entre 5 y 15 minutos antes de que la mente construya la historia.", "nota": ""}, {"id": "f1a8", "titulo": "Línea base medible", "marco": "Evaluación psicométrica · Medición de resultados", "origen": "nuevo", "porque": "Sin línea base no hay progreso demostrable, solo sensación. Y la sensación miente: en fases de mejora real suele bajar primero el ánimo porque empiezas a ver lo que evitabas. Los números te protegen de abandonar justo cuando está funcionando.", "pasos": ["Aplica las escalas de la sección «Métricas» en la semana 1.", "Repite exactamente las mismas en la semana 6 y en la semana 12.", "No mires los resultados anteriores antes de responder: sesga la respuesta.", "Registra también los 5 indicadores conductuales (límites puestos, impulsos no actuados, tiempo de recuperación, contactos significativos, sesiones de práctica)."], "dosis": "Semanas 1, 6 y 12", "senal": "Tienes tres puntos de datos comparables al final del plan.", "nota": ""}], "metricas": ["Puedes nombrar 5 valores propios y tu creencia nuclear en una frase.", "Ansiedad en exposición al espejo: descenso de al menos 3 puntos entre sesión 1 y sesión 6.", "Diccionario corporal con al menos 6 correspondencias emoción–sensación.", "21/21 días de mapeo de identidad completados (o 18 mínimo)."]}, {"id": "f2", "num": 2, "titulo": "La regulación", "sub": "Ansiedad, heridas y corregulación propia", "semanas": "Semanas 4–6", "objetivo": "Aprender a bajar la activación tú misma, sin necesitar que otro te calme, y sin actuar el impulso.", "principio": "Una crisis emocional casi nunca es sobre el presente: es una herida antigua (abandono, rechazo, humillación, injusticia, traición) reactivada por un disparador actual. Regular no es sentir menos; es sostener lo que sientes sin que dirija tu conducta.", "actividades": [{"id": "f2a1", "titulo": "Etiquetado afectivo", "marco": "Affect labeling (Lieberman, UCLA) · IFS (Schwartz)", "origen": "enriquecido", "porque": "Tu intuición es exacta y tiene base neurobiológica: poner la emoción en palabras reduce la actividad de la amígdala y aumenta la de la corteza prefrontal ventrolateral. Nombrar regula. Y la formulación de partes («hay una parte de mí que...») añade lo que hace IFS: te devuelve a la posición de observadora, desde donde puedes elegir.", "pasos": ["Prohíbete el verbo ser para emociones. «Soy intensa» → «hay una parte de mí sintiendo mucho miedo ahora».", "Usa vocabulario preciso, no categorías gruesas. No «mal»: ¿desamparo, humillación, envidia, agotamiento, soledad, injusticia, vergüenza?", "Añade intensidad 0–10 y duración estimada. «Vergüenza, 7, lleva 20 minutos».", "Pregúntale a la parte: ¿qué edad tiene?, ¿de qué te está protegiendo?, ¿qué teme que pase si se calla?", "Agradécele y dile qué vas a hacer tú, la adulta, con eso."], "dosis": "En cada activación · registro escrito 1 vez al día", "senal": "Tu vocabulario emocional pasa de 4–5 palabras a 15+, y la intensidad baja 1–2 puntos solo al nombrarla.", "nota": ""}, {"id": "f2a2", "titulo": "Anclaje escalonado según intensidad", "marco": "Grounding · TIPP (DBT, Linehan) · Orientación somática (Levine)", "origen": "enriquecido", "porque": "Tu técnica de 5 objetos es excelente para activación baja-media, pero por encima de 7/10 la corteza no está disponible y ninguna técnica cognitiva funciona: hay que bajar la fisiología primero. Por eso el protocolo es escalonado. TIPP de DBT está diseñado exactamente para eso: usa el reflejo de inmersión y el sistema parasimpático como interruptor.", "pasos": ["NIVEL 1 (0–4/10) — cognitivo: 5-4-3-2-1. Nombra 5 cosas que ves con detalle, 4 que oyes, 3 que tocas, 2 que hueles, 1 que saboreas.", "NIVEL 2 (5–7/10) — somático: orientación. Gira lentamente la cabeza y recorre la habitación con la mirada hasta que algo te llame la atención. Apoya los pies y siente el suelo. Nombra en voz alta dónde estás, qué día es y qué edad tienes.", "NIVEL 3 (8–10/10) — fisiológico, TIPP: (T) agua fría en la cara o hielo en las muñecas 30 seg; (I) 3 min de ejercicio intenso —escaleras, sentadillas—; (P) respiración pausada con exhalación más larga que la inhalación; (P) relajación muscular progresiva, tensar 5 seg y soltar 10, de pies a cabeza.", "Después de bajar, y solo después, vuelve al nivel 1 y luego al análisis."], "dosis": "A demanda · practicar cada nivel 2 veces por semana en frío", "senal": "Identificas tu nivel de activación antes de elegir técnica, y la técnica correcta baja 3+ puntos en menos de 10 minutos.", "nota": "Practícalo cuando estás bien. Una técnica que solo se entrena en crisis no se aprende."}, {"id": "f2a3", "titulo": "Respiración de resonancia (coherencia cardíaca)", "marco": "Biofeedback de variabilidad de la frecuencia cardíaca (HRV-BF)", "origen": "nuevo", "porque": "Es la pieza de neuroterapia con más soporte empírico que puedes practicar sola. Respirar a ~5,5–6 respiraciones por minuto sincroniza la frecuencia cardíaca con la respiración y estimula el barorreflejo, aumentando el tono vagal. Los metaanálisis muestran efectos sobre ansiedad, depresión, estrés y sueño. Es entrenamiento del sistema, no un truco de emergencia: cambia tu línea base de reactividad.", "pasos": ["Sentada, espalda apoyada, una mano en el abdomen.", "Inhala 4 segundos por la nariz, exhala 6 segundos por la boca con los labios semicerrados. Eso da 6 respiraciones por minuto.", "Si te resulta forzado, prueba 5–5 o 4,5–6,5. Tu frecuencia de resonancia está entre 4,5 y 7 rpm; la correcta es la que te resulta cómoda y sostenible.", "El aire va al abdomen, no al pecho. La mano en el abdomen debe subir.", "10–20 minutos diarios, a la misma hora. Idealmente también 5 minutos antes de una conversación difícil.", "Opcional: cualquier app de coherencia cardíaca o un pulsómetro con HRV te da retroalimentación real."], "dosis": "10–20 min diarios · 8 semanas mínimo para cambio de línea base", "senal": "Tu frecuencia cardíaca en reposo baja, tardas menos en volver a la calma tras una discusión, y duermes con menos despertares.", "nota": ""}, {"id": "f2a4", "titulo": "Ventana de tolerancia", "marco": "Psicoterapia sensoriomotriz (Ogden) · Neurobiología interpersonal (Siegel)", "origen": "nuevo", "porque": "Da un mapa a lo que ya vives. Por encima de la ventana estás hiperactivada (rabia, pánico, impulso de reclamar, revisar redes, llamar); por debajo estás hipoactivada (vacío, entumecimiento, desconexión, «no siento nada»). Cada estado necesita intervención opuesta: arriba, calmar; abajo, activar. Aplicar la técnica equivocada es por qué a veces «nada funciona».", "pasos": ["Dibuja tres franjas horizontales: hiper / ventana / hipo.", "Llena cada franja con TUS señales concretas: pensamientos, sensaciones corporales, impulsos, cómo hablas, qué haces con el celular.", "Escribe 3 intervenciones para hiperactivación: exhalación larga, agua fría, movimiento rítmico, peso/manta, reducir estímulos.", "Escribe 3 para hipoactivación: movimiento vigoroso, música, ducha con contraste, llamar a alguien, salir al exterior, comer algo.", "Pégalo donde lo veas. En crisis no vas a recordarlo, tienes que poder leerlo."], "dosis": "Construcción única · consulta a demanda · revisión mensual", "senal": "Identificas en qué franja estás en menos de un minuto y aplicas la intervención correspondiente.", "nota": ""}, {"id": "f2a5", "titulo": "Surfear el impulso + acción opuesta", "marco": "Urge surfing (Marlatt) · Opposite action (DBT)", "origen": "enriquecido", "porque": "Tu regla de 20 minutos / 24 horas es sólida; esto le da el «qué hago mientras». El impulso no crece indefinidamente: sube, hace pico y baja en 20–30 minutos si no lo alimentas ni lo actúas. Y la acción opuesta de DBT añade la parte activa: cuando la emoción no encaja con los hechos, haz deliberadamente lo contrario de lo que te empuja a hacer.", "pasos": ["Temporizador de 20 minutos. Nada se decide en el pico.", "Observa el impulso como una ola: ¿dónde lo sientes?, ¿sube o baja?, ¿qué intensidad 0–10 cada 5 minutos? No lo peleas ni lo obedeces: lo miras.", "Pregunta clave: ¿esta emoción encaja con los hechos y con esta intensidad? Si no encaja → acción opuesta.", "Ejemplos de acción opuesta: impulso de escribirle → guardas el celular en otro cuarto y sales a caminar; impulso de esconderte por vergüenza → mantienes postura erguida y contacto visual; impulso de complacer por miedo → dices «déjame pensarlo».", "Si a las 24 horas el impulso sigue igual y encaja con los hechos, es información real: entonces actúa, pero desde tus valores.", "Registra cada impulso no actuado. Ese conteo es tu músculo de autonomía."], "dosis": "A demanda · registro semanal del conteo", "senal": "El número de impulsos no actuados sube semana a semana, y el pico dura menos.", "nota": ""}, {"id": "f2a6", "titulo": "Hechos vs. interpretaciones (registro ampliado)", "marco": "Registro de pensamientos de 7 columnas · TCC (Beck)", "origen": "enriquecido", "porque": "Tus dos columnas son el corazón del método; el formato clínico completo añade lo que produce el cambio duradero: identificar la distorsión, examinar la evidencia en ambas direcciones, y volver a medir la emoción después. Sin la remedición no hay aprendizaje: tu cerebro necesita comprobar que la reestructuración bajó algo.", "pasos": ["1. Situación: el hecho observable, lo que grabaría una cámara. «No respondió el mensaje en 6 horas».", "2. Emoción e intensidad 0–100.", "3. Pensamiento automático: la frase exacta que pasó por tu cabeza. «Ya no le importo».", "4. Distorsión: ¿lectura de mente?, ¿catastrofización?, ¿personalización?, ¿todo-o-nada?, ¿razonamiento emocional?, ¿filtro mental?, ¿deberías?", "5. Evidencia a favor / evidencia en contra. Ambas columnas obligatorias.", "6. Pensamiento alternativo: no positivo, realista. «No sé por qué no respondió. Tengo evidencia de las dos cosas. Puedo preguntar si me importa».", "7. Reevalúa la emoción 0–100."], "dosis": "1 registro diario mínimo · 3 semanas para automatizar", "senal": "Descenso promedio de 20+ puntos entre columna 2 y columna 7, y empiezas a hacerlo mentalmente sin papel.", "nota": ""}, {"id": "f2a7", "titulo": "Recurso somático: lugar seguro y abrazo mariposa", "marco": "EMDR — instalación de recursos · Experiencia Somática (Levine)", "origen": "nuevo", "porque": "Son las herramientas de estabilización previas al trabajo con memoria en EMDR. La estimulación bilateral lenta y la evocación de un recurso interno generan una vía de autorregulación disponible sin depender de nadie: literalmente, corregularte contigo misma. La pendulación —alternar entre lo incómodo y lo neutro— enseña al sistema que puede entrar y salir del malestar sin quedar atrapado.", "pasos": ["LUGAR SEGURO: evoca un lugar real o imaginado donde tu cuerpo se afloja. Añade los 5 sentidos: qué ves, oyes, hueles, tocas, temperatura. Ancla con una palabra («playa», «cabaña»).", "ABRAZO MARIPOSA: cruza los brazos sobre el pecho, manos en los hombros opuestos. Golpea alternadamente, lento, 20–30 pares, mientras sostienes la imagen del lugar seguro. Respira.", "PENDULACIÓN: nota una sensación incómoda 20 segundos, luego lleva la atención a una zona del cuerpo que esté neutra o cómoda 20 segundos. Alterna 4–5 veces. Termina siempre en lo neutro.", "TITRACIÓN: nunca abras el malestar entero de golpe. Una gota, regulas, otra gota."], "dosis": "Práctica en calma 3×/semana · uso a demanda", "senal": "La palabra ancla por sí sola te baja la activación 2 puntos.", "nota": ""}, {"id": "f2a8", "titulo": "Rescripting de un recuerdo de rechazo", "marco": "Imagery rescripting · Terapia de esquemas (Arntz, Young)", "origen": "nuevo", "porque": "Los metaanálisis actualizados muestran eficacia del rescripting de imágenes para trastornos ligados a recuerdos aversivos, con mejoras en rumiación, imágenes intrusivas y creencias nucleares desadaptativas. Es la técnica que trabaja directamente sobre la herida antigua que se reactiva en tus crisis, en lugar de solo manejar el síntoma actual.", "pasos": ["Identifica una escena temprana concreta ligada a tu creencia nuclear. No la más traumática: una representativa y manejable.", "Fase 1 — evoca la escena en primera persona, con la edad que tenías. ¿Qué sientes, qué necesitabas y no recibiste?", "Fase 2 — entra tú, adulta, en la escena. Haces lo que haga falta: pones el límite, dices lo que nadie dijo, sacas a la niña de ahí. La imaginación no tiene reglas de realismo.", "Fase 3 — vuelve a la perspectiva de la niña recibiendo eso. ¿Qué cambia en el cuerpo? ¿Qué cree ahora sobre sí misma?", "Cierra con lugar seguro y anota la nueva frase nuclear."], "dosis": "1 sesión de 45 min · máximo 1 por semana", "senal": "Al evocar la escena original, la carga emocional (0–10) baja y la creencia nuclear pierde credibilidad.", "nota": "⚠ Si el recuerdo es traumático (abuso, violencia, negligencia grave), hazlo con un terapeuta formado en esquemas o EMDR. Abrirlo sola puede desbordar."}], "metricas": ["Tiempo de recuperación tras una activación fuerte: reducción de al menos 30% respecto a la semana 4.", "Impulsos no actuados: al menos 5 registrados en la semana 6.", "Práctica de respiración de resonancia: 15+ días de 21.", "21 registros de pensamientos completados con reevaluación."]}, {"id": "f3", "num": 3, "titulo": "La voz", "sub": "Diálogo interno y coherencia", "semanas": "Semanas 7–9", "objetivo": "Cambiar el tono con el que te hablas y empezar a decidir desde valores en lugar de desde emoción.", "principio": "Tu autoestima no depende de lo que piensas de ti, sino de cómo te tratas cuando fallas. Y ojo: la investigación es clara en que repetir afirmaciones positivas que no te crees empeora el ánimo en personas con baja autoestima. El camino no es convencerte de que eres maravillosa, sino dejar de castigarte y acumular evidencia real.", "actividades": [{"id": "f3a1", "titulo": "Auditoría del crítico interno", "marco": "CFT — Terapia Centrada en la Compasión (Gilbert)", "origen": "enriquecido", "porque": "Gilbert propone tres sistemas de regulación: amenaza (miedo, autocrítica, protección), impulso (logro, búsqueda, dopamina) y calma (seguridad, afiliación, conexión). Si creciste en un entorno exigente o impredecible, tu autocrítica no es un defecto: es tu sistema de amenaza intentando protegerte de ser rechazada. Tratarla como enemiga la refuerza; entenderla y luego desarrollar el sistema de calma es lo que la desactiva.", "pasos": ["Durante 7 días registra cada frase autocrítica: hora, disparador, frase textual, tono (¿sarcástico?, ¿frío?, ¿furioso?), y a quién se parece esa voz.", "Clasifica: crítica destructiva («qué estúpida soy» — ataca identidad) vs. corrección funcional («esto no salió, ajusto» — ataca conducta).", "Pregúntale al crítico: ¿de qué me quieres proteger? Casi siempre la respuesta es rechazo, abandono o humillación.", "Escribe su función en una frase: «Mi crítica me protege de ______, y el precio que pago es ______»."], "dosis": "7 días de registro · relectura en semana 9", "senal": "Puedes identificar el disparador y la función de tu autocrítica sin fusionarte con ella.", "nota": ""}, {"id": "f3a2", "titulo": "La silla del crítico", "marco": "Terapia Focalizada en la Emoción — trabajo de dos sillas (Greenberg)", "origen": "nuevo", "porque": "Es la técnica con más soporte para la autocrítica escindida. Externalizar el conflicto en dos sillas físicas convierte un bucle mental cerrado en un diálogo con dos posiciones, y permite que la parte criticada —que normalmente calla— responda por primera vez. En los ensayos, produce ablandamiento del crítico y aumento de autocompasión.", "pasos": ["Dos sillas frente a frente. En una te sientas como el crítico: háblate en voz alta, con el tono real, sin suavizar. «Nunca haces nada bien, por eso te dejan».", "Cámbiate de silla. Ahora eres la parte criticada. Siente el impacto en el cuerpo antes de hablar. Responde: «Cuando me hablas así, yo siento ______, y lo que necesito es ______».", "Alterna 3–4 veces. Deja que el crítico se ablande solo; no lo fuerces.", "Cierra siempre en la silla de la parte criticada, con una frase de cuidado.", "Anota la frase que más te movió."], "dosis": "20–30 min · 1 vez por semana durante la fase", "senal": "El crítico baja de volumen y aparece una tercera voz: la adulta que media.", "nota": "Hazlo sola y en un lugar donde puedas hablar en voz alta. En silencio no funciona igual."}, {"id": "f3a3", "titulo": "Reestructuración + defusión (en vez de «reemplazo positivo»)", "marco": "TCC (Beck) + ACT (Hayes)", "origen": "enriquecido", "porque": "Matiz importante sobre tu punto original: cambiar «qué estúpida soy» por «soy maravillosa» no funciona si no te lo crees; hay evidencia de que empeora el estado de ánimo en personas con baja autoestima. Lo que sí funciona es una frase creíble, específica y orientada a conducta, o soltarte del pensamiento sin discutirlo.", "pasos": ["Detecta → respira → elige una de tres vías:", "VÍA 1, reestructurar: «Cometí un error concreto en X. ¿Qué aprendo y qué hago distinto?» — específica, conductual, sin adjetivos sobre tu persona.", "VÍA 2, defusionar: «Estoy notando el pensamiento de que soy estúpida». No lo discutes, lo observas pasar. Útil cuando el pensamiento no es debatible.", "VÍA 3, autocompasión: «Esto duele. Es humano. ¿Qué necesito ahora?». Útil cuando sí fallaste y la culpa es proporcionada.", "Regla: no usar afirmaciones que no te creas. Si no te la crees, no sirve. Baja el listón hasta una frase que sí sea creíble."], "dosis": "Continuo · 3 registros escritos por semana", "senal": "La autocrítica destructiva baja de frecuencia y aparece corrección funcional en su lugar.", "nota": ""}, {"id": "f3a4", "titulo": "Registro de evidencia contraria", "marco": "Positive data log · Registro de datos positivos (Padesky)", "origen": "nuevo", "porque": "Una creencia nuclear filtra la información: descarta automáticamente lo que la contradice. El registro de datos positivos rompe ese filtro obligándote a anotar diariamente hechos pequeños que no encajan con la creencia. Es lento y acumulativo por diseño: las creencias nucleares no se cambian con argumentos, se erosionan con evidencia repetida.", "pasos": ["Escribe arriba la creencia NUEVA que quieres construir, en positivo y creíble: «Soy alguien que se cuida», «Merezco pedir lo que necesito».", "Cada día anota 1–3 hechos, por pequeños que sean, que sean coherentes con esa creencia. «Dije que no a una reunión a las 8 pm». «Comí sentada».", "Prohibido descalificar («eso no cuenta»). Si pasó, cuenta.", "Cada domingo, califica 0–100 cuánto te crees la creencia nueva. Traza la curva."], "dosis": "Diario · durante las 12 semanas completas", "senal": "La credibilidad de la creencia nueva sube al menos 20 puntos entre la semana 7 y la 12.", "nota": ""}, {"id": "f3a5", "titulo": "Decisiones desde valores (protocolo de 4 preguntas)", "marco": "ACT — acción comprometida", "origen": "enriquecido", "porque": "Tus tres preguntas son excelentes. Añado una cuarta que cierra el ciclo y convierte la reflexión en conducta, que es donde se construye la autoestima real.", "pasos": ["1. ¿Qué emoción siento, exactamente, y con qué intensidad?", "2. ¿A qué me está empujando esta emoción? (el impulso, en verbo)", "3. Si actuara desde mis valores y no desde esta emoción, ¿qué haría?", "4. ¿Cuál es el primer paso de eso que puedo dar en los próximos 10 minutos?", "Ponlo en una tarjeta en la billetera o como fondo de pantalla. Se usa en el momento, no después."], "dosis": "En cada decisión emocionalmente cargada", "senal": "Al menos 3 decisiones por semana tomadas desde el paso 3–4 y no desde el paso 2.", "nota": ""}, {"id": "f3a6", "titulo": "Activación conductual y micro-compromisos", "marco": "Activación conductual (Jacobson, Martell)", "origen": "nuevo", "porque": "La autoestima es un efecto secundario de la conducta, no su causa. La activación conductual —una de las intervenciones con mejor evidencia para el estado de ánimo— invierte la lógica: no esperas sentirte capaz para actuar, actúas y de ahí sale la evidencia de que eres capaz. Cumplirte a ti misma acuerdos pequeños es literalmente cómo se construye la confianza propia.", "pasos": ["Elige 3 micro-compromisos semanales, tan pequeños que sea casi imposible fallar. «Camino 15 min los martes», «me acuesto a las 11 tres noches».", "Regla de oro: prefiere ridículamente pequeño y cumplido a ambicioso y roto. Cada incumplimiento alimenta la creencia vieja.", "Clasifica cada actividad de la semana en dominio (me da sensación de logro) y agrado (me da placer). Necesitas ambas: solo dominio agota, solo agrado no construye.", "Programa las actividades en el calendario con hora. Lo no agendado no ocurre.", "Revisión semanal: ¿cumplí? Si no, ¿el compromiso era demasiado grande? Ajusta el tamaño, no la exigencia contigo."], "dosis": "3 micro-compromisos/semana · revisión los domingos", "senal": "Tasa de cumplimiento sobre 80% durante 3 semanas seguidas.", "nota": ""}, {"id": "f3a7", "titulo": "Carta desde el yo futuro", "marco": "Imaginería prospectiva · Terapia narrativa", "origen": "nuevo", "porque": "Proyectar una identidad futura coherente refuerza la conducta presente alineada con ella. Le da a tu cerebro un modelo interno hacia el que orientarse, que es exactamente lo que pides: ser coherente con quien quieres ser.", "pasos": ["Escribe una carta fechada dentro de dos años, desde la mujer que ya vive con autoestima, límites y expresión sana.", "En presente: cómo es su día, cómo responde cuando alguien la irrespeta, qué ya no tolera, con quién está, cómo se habla cuando falla.", "Que se dirija a la Camila de hoy: qué le agradece haber empezado, qué le dice cuando quiere abandonar.", "Guárdala y reléela en la semana 12."], "dosis": "1 vez · relectura en semana 12", "senal": "Puedes describir a esa mujer en conducta concreta, no en adjetivos.", "nota": ""}], "metricas": ["Ratio de autocrítica destructiva vs. corrección funcional: invertido respecto a la semana 7.", "Credibilidad de la creencia nueva: +20 puntos.", "Cumplimiento de micro-compromisos ≥80%.", "3+ sesiones de silla del crítico completadas."]}, {"id": "f4", "num": 4, "titulo": "El límite", "sub": "Autoprotección y expresión de necesidades", "semanas": "Semanas 10–12", "objetivo": "Poner límites y pedir lo que necesitas sosteniendo la culpa que aparece después, sin retractarte.", "principio": "El límite no se le pone al otro para que cambie: es una línea que tú te marcas y una consecuencia que tú ejecutas. Por eso funciona incluso si el otro no colabora. Y la culpa posterior no es señal de que te equivocaste: es la reacción esperable de alguien educada para complacer.", "actividades": [{"id": "f4a1", "titulo": "El «yo no me permito» + consecuencia propia", "marco": "Autoprotección · Entrenamiento asertivo", "origen": "enriquecido", "porque": "Tu formulación es la clave del asunto y le añado la pieza que hace que el límite sea real: la consecuencia que ejecutas tú. Un límite sin acción propia es una petición disfrazada, y depende de la buena voluntad del otro.", "pasos": ["Formula así: «Yo no me permito permanecer donde se me habla con irrespeto. Si vuelve a pasar, me retiro de la conversación».", "Dos partes obligatorias: la línea (qué no me permito) + la acción propia (qué hago yo si pasa). Nunca «necesito que tú...».", "La consecuencia debe ser algo 100% bajo tu control, proporcionada y que estés dispuesta a cumplir. No amenaces con lo que no vas a hacer.", "Ejecútala la primera vez, sin aviso extra. Un límite que se anuncia tres veces y nunca se aplica enseña que no es real.", "Escribe tus 5 límites nucleares antes de empezar la fase."], "dosis": "Definición inicial · aplicación continua", "senal": "Has ejecutado al menos una consecuencia sin retractarte.", "nota": ""}, {"id": "f4a2", "titulo": "Escalera de exposición a límites", "marco": "Exposición gradual · Entrenamiento asertivo (evidencia en ECA)", "origen": "enriquecido", "porque": "El entrenamiento asertivo tiene ensayos controlados que muestran mejoras en autoestima, ansiedad social y bienestar. La clave es la gradualidad: empezar por la conversación más difícil garantiza el fracaso y refuerza la evitación. Se entrena como cualquier exposición: jerarquía de menor a mayor.", "pasos": ["Lista 10 situaciones donde te cuesta poner un límite y puntúalas 0–100 en dificultad.", "Ordénalas. Empieza por una de 30–40: devolver un plato mal hecho, decir «no» a un vendedor, pedir que bajen el volumen.", "Sube un escalón solo cuando la anterior te genere menos de 30 de ansiedad.", "Ensayo previo obligatorio: di la frase en voz alta frente al espejo 3 veces antes.", "Frase corta, clara, sin justificaciones. «No puedo». «Esto no me funciona». «Prefiero que no». La explicación larga es una invitación a negociar.", "Registra después: ansiedad antes / durante / después, qué dijiste, qué pasó realmente vs. lo que temías."], "dosis": "2–3 límites por semana, subiendo de escalón", "senal": "Llegas a la situación de 70+ y la ejecutas, con ansiedad tolerable.", "nota": ""}, {"id": "f4a3", "titulo": "DEAR MAN · GIVE · FAST", "marco": "DBT — Efectividad interpersonal (Linehan)", "origen": "nuevo", "porque": "Es el guion operativo para pedir y negarte sin agredir ni someterte. Tres módulos según tu prioridad: conseguir el objetivo, cuidar la relación, o mantener tu autorrespeto. Casi todo tu malestar al expresar necesidades viene de no tener estructura: se improvisa en activación alta y sale reclamo o silencio.", "pasos": ["DEAR MAN (para conseguir algo): Describe el hecho · Expresa cómo te sientes con «yo» · Afirma lo que pides, concreto · Refuerza el beneficio mutuo · Mantente en el foco (disco rayado) · Aparenta seguridad (voz firme, contacto visual) · Negocia si aplica.", "GIVE (para cuidar la relación): Gentil (sin ataques ni sarcasmo) · Interés genuino (escucha) · Valida lo que el otro siente · Estilo relajado.", "FAST (para tu autorrespeto): justa (Fair) contigo y con el otro · sin disculpas excesivas (no Apologies por existir) · pegada a tus valores (Stick) · veraz (Truthful, sin exagerar ni inventar excusas).", "Antes de una conversación difícil: escribe tu DEAR MAN completo en papel. Léelo. Recórtalo a la mitad.", "5 minutos de respiración de resonancia antes de entrar."], "dosis": "Preparación escrita antes de cada conversación difícil", "senal": "Sales de una conversación difícil sin haber cedido en lo esencial ni haber agredido.", "nota": ""}, {"id": "f4a4", "titulo": "Expresar necesidades: observación → sentimiento → necesidad → petición", "marco": "Comunicación No Violenta (Rosenberg) · Formato DESC", "origen": "nuevo", "porque": "Le da estructura al «expresar necesidades de forma sana». Separar observación de evaluación evita la defensa automática del otro, y terminar en petición concreta y negociable —no en exigencia ni en queja— es lo que hace que la conversación tenga salida.", "pasos": ["OBSERVACIÓN, sin evaluación: «Las últimas tres veces que quedamos, llegaste más de 40 minutos tarde». No: «nunca me respetas».", "SENTIMIENTO, propio: «Me siento poco importante y me da rabia». No: «me haces sentir». No: «siento que tú...» (eso es un pensamiento disfrazado).", "NECESIDAD, universal: «Necesito previsibilidad y sentir que mi tiempo cuenta».", "PETICIÓN, concreta, positiva y en presente: «¿Podrías avisarme por mensaje si vas a llegar más de 15 minutos tarde?». Que se pueda responder sí o no.", "Practica escrito antes de decirlo. Los cuatro pasos, cuatro frases."], "dosis": "1 conversación estructurada por semana", "senal": "Puedes pedir algo sin envolverlo en queja, ironía o disculpa previa.", "nota": ""}, {"id": "f4a5", "titulo": "Exposición a la culpa (el precio del límite)", "marco": "Exposición con prevención de respuesta · TCC", "origen": "enriquecido", "porque": "Este es el punto más importante de la fase y ya lo tenías intuido. Técnicamente es una exposición: la culpa post-límite es la respuesta condicionada, y retractarte es la conducta de escape que la mantiene. Si no la neutralizas, la culpa alcanza su pico y desciende sola —típicamente en 20–40 minutos—. Cada vez que la sostienes sin ceder, la respuesta se debilita. Cada vez que cedes, la refuerzas.", "pasos": ["Después de poner el límite, pon un temporizador de 40 minutos y registra la culpa 0–10 cada 10 minutos. Vas a ver la curva.", "PROHIBIDO durante ese tiempo: escribir para suavizar, explicar más, disculparte, compensar con un favor, revisar si el otro está molesto.", "Diferencia culpa sana (hice daño real → reparo) de culpa aprendida (decepcioné una expectativa que no acordé → sostengo). Escribe cuál es antes de actuar.", "Frase ancla: «Estoy sintiendo culpa, no estoy haciendo algo malo. Aprender a decepcionar a otros es cómo dejo de decepcionarme a mí».", "Regula el cuerpo mientras: respiración de resonancia, caminar, mano en el pecho. Regular no es lo mismo que neutralizar."], "dosis": "En cada límite puesto · registro obligatorio las primeras 10 veces", "senal": "La culpa pico baja de intensidad y de duración a lo largo de las repeticiones, y no te retractas ninguna vez.", "nota": ""}, {"id": "f4a6", "titulo": "Plan de mantenimiento y recaída", "marco": "Prevención de recaídas (Marlatt) · Plan de crisis DBT", "origen": "nuevo", "porque": "Los retrocesos son parte del proceso, no su interrupción. Tener el plan escrito de antemano evita que un mal día se interprete como «no sirvo para esto» y active la creencia nuclear vieja. Es lo que sostiene el cambio después de la semana 12.", "pasos": ["Identifica tus 5 disparadores de alto riesgo (soledad de domingo, contacto con cierta persona, cansancio extremo, alcohol, redes de madrugada).", "Señales tempranas de retroceso: ¿qué haces primero cuando empiezas a caer? Suele ser dejar de dormir bien, dejar de moverte, o empezar a revisar el celular compulsivamente.", "Plan de 3 pasos para cada señal: qué haces en las primeras 24h, a quién avisas, qué práctica retomas primero.", "Define tu «mínimo no negociable» para semanas malas: 3 prácticas que sostienes pase lo que pase (ej. dormir horario, 10 min de respiración, un registro de pensamiento).", "Escribe la frase de recaída: «Un retroceso es información sobre mis disparadores, no evidencia sobre mi valor»."], "dosis": "Construcción en semana 12 · revisión mensual después", "senal": "Tienes el plan escrito, accesible y con tres prácticas mínimas definidas.", "nota": ""}], "metricas": ["10+ límites puestos y registrados en la escalera de exposición.", "0 retractaciones tras poner un límite.", "Curva de culpa documentada al menos 5 veces, con pico decreciente.", "3+ conversaciones con estructura DEAR MAN o CNV."]}], "habitos": [{"titulo": "Sueño: el regulador maestro", "marco": "TCC para el insomnio (TCC-I) · Neurociencia del sueño", "porque": "La privación de sueño amplifica la reactividad de la amígdala frente a estímulos negativos y debilita su conexión con la corteza prefrontal. Traducción: con poco sueño literalmente tienes menos freno. Es la intervención con mejor relación esfuerzo/beneficio de todo el plan.", "pasos": ["Hora fija de levantarte, todos los días, incluidos fines de semana. Es más importante que la hora de acostarte.", "Luz natural en los ojos 10–30 minutos dentro de la primera hora del día. Ancla el ritmo circadiano mejor que cualquier suplemento.", "Cama solo para dormir y sexo. Si llevas 20 minutos despierta, levántate y vuelve cuando tengas sueño.", "Sin cafeína 8 horas antes. Sin pantallas brillantes la última hora.", "Si la mente no para: escribe la lista de preocupaciones en papel antes de acostarte (descarga cognitiva)."]}, {"titulo": "Movimiento", "marco": "Ejercicio como intervención en salud mental", "porque": "El ejercicio aeróbico regular tiene efectos antidepresivos y ansiolíticos documentados en depresión y ansiedad leve a moderada, y mejora la variabilidad de la frecuencia cardíaca —el mismo sistema que entrenas con la respiración de resonancia—.", "pasos": ["150 min/semana de intensidad moderada, o 75 de intensidad alta. Repartidos, no en un bloque heroico el domingo.", "Añade 2 sesiones de fuerza. La sensación de capacidad física traslada a sensación de capacidad general.", "En activación alta, el ejercicio intenso corto (3–5 min) es una herramienta de regulación aguda, no solo un hábito."]}, {"titulo": "Nutrición y estabilidad glucémica", "marco": "Psiquiatría nutricional", "porque": "Los ensayos de intervención dietética (patrón mediterráneo) muestran mejoras en síntomas depresivos. Y a corto plazo, las caídas de glucosa producen irritabilidad y reactividad que después interpretas como problema emocional.", "pasos": ["Proteína en cada comida. Evita pasar más de 5 horas sin comer.", "Patrón mediterráneo como marco general: vegetales, legumbres, pescado, aceite de oliva, frutos secos.", "Antes de analizar una emoción intensa, revisa: ¿comí?, ¿dormí?, ¿tomé agua? Sorprendentemente a menudo la respuesta está ahí."]}, {"titulo": "Recuperar pasiones (con estructura)", "marco": "Activación conductual · Dominio y agrado", "porque": "Tu punto original es correcto y la evidencia lo respalda: reintroducir actividades significativas es una intervención en sí misma. Pero solo funciona si está agendada; «cuando tenga ganas» nunca llega, porque las ganas aparecen después de empezar, no antes.", "pasos": ["Lista lo que disfrutabas antes de perderte en vínculos o en trabajo. Sin filtrar por «ya no tengo edad» o «no soy buena».", "Elige una. Agéndala con día y hora fijos, mínimo 1 vez por semana.", "Regla: vas aunque no tengas ganas. Evalúas después, no antes.", "Puntúa cada sesión 0–10 en dominio y en agrado. Ajusta la elección con esos datos."]}, {"titulo": "Vínculos y corregulación sana", "marco": "Teoría polivagal · Apoyo social", "porque": "Aprender a autorregularte no significa aislarte. El sistema nervioso humano se regula en presencia de otros seguros. La diferencia entre corregulación sana y dependencia es sencilla: en la sana pides compañía; en la dependiente exiges que el otro elimine tu malestar.", "pasos": ["1 contacto significativo por semana, presencial si es posible. Agendado.", "Practica pedir sin exigir: «¿tienes 20 minutos para escucharme? No necesito solución, necesito compañía».", "Distingue: ¿estoy buscando compañía o buscando que alguien me quite esto? La segunda es la que hay que sostener sola."]}, {"titulo": "Tolerancia a la incertidumbre", "marco": "Modelo de intolerancia a la incertidumbre (Dugas) · TCC para ansiedad generalizada", "porque": "La intolerancia a la incertidumbre es el motor de la preocupación crónica y de las conductas de control (revisar, preguntar, buscar reaseguro). No se resuelve consiguiendo certeza: se resuelve entrenando la capacidad de estar sin ella.", "pasos": ["Lista tus conductas de búsqueda de certeza: revisar el celular, preguntar «¿estamos bien?», releer conversaciones, buscar en redes.", "Elimina una por semana. Registra la ansiedad y cuánto tarda en bajar sola.", "Exposición deliberada a lo incierto: toma una decisión pequeña sin investigarla del todo, envía un mensaje sin releerlo 5 veces.", "Cambia la pregunta: de «¿cómo consigo saber?» a «¿cómo me sostengo mientras no sé?»."]}], "cronograma": [["1", "Fase 1", "Línea base (escalas) · Inicio mapeo de identidad · Brújula de valores · Body scan diario", "Tienes tus 5 valores y tus puntajes iniciales."], ["2", "Fase 1", "Mapeo continúa · Espejo sesiones 1–2 · Desmontar etiquetas + descenso en flecha · Autocompasión", "Creencia nuclear identificada en una frase."], ["3", "Fase 1", "Escritura expresiva 4 días · Espejo 3–4 · Mapa corporal · Carta de autocompasión", "Diccionario corporal con 6+ entradas."], ["4", "Fase 2", "Ventana de tolerancia · Inicio respiración de resonancia diaria · Etiquetado afectivo", "Mapa de hiper/hipo pegado en la pared."], ["5", "Fase 2", "Anclaje escalonado (practicar los 3 niveles) · Registro de pensamientos diario · Surfear el impulso", "Primeros impulsos no actuados registrados."], ["6", "Fase 2", "Lugar seguro + abrazo mariposa · Rescripting ⚠ · RE-TEST de escalas", "Segundo punto de datos. Comparación con semana 1."], ["7", "Fase 3", "Auditoría del crítico interno 7 días · Inicio registro de evidencia contraria", "Función de tu autocrítica escrita en una frase."], ["8", "Fase 3", "Silla del crítico · Reestructuración por 3 vías · Micro-compromisos", "Cumplimiento de micro-compromisos ≥80%."], ["9", "Fase 3", "Protocolo de 4 preguntas en decisiones reales · Carta desde el yo futuro · Silla del crítico", "3 decisiones tomadas desde valores."], ["10", "Fase 4", "5 límites nucleares definidos · Escalera de exposición (escalones 30–40) · Registro de culpa", "Primeros 3 límites puestos y registrados."], ["11", "Fase 4", "DEAR MAN escrito antes de conversaciones · CNV · Escalones 50–70", "Una conversación difícil sostenida sin ceder."], ["12", "Fase 4", "Escalón más alto · Plan de mantenimiento · RE-TEST de escalas · Relectura de la carta futura", "Tercer punto de datos + plan escrito para después."]], "escalasIntro": "Mide en las semanas 1, 6 y 12. Responde sin mirar los resultados anteriores. Los números importan menos que la dirección de la curva.", "rses": [["En general, estoy satisfecha conmigo misma.", false], ["A veces pienso que no soy buena en nada.", true], ["Creo que tengo varias cualidades buenas.", false], ["Puedo hacer las cosas tan bien como la mayoría de la gente.", false], ["Creo que no tengo muchos motivos para sentirme orgullosa de mí.", true], ["A veces me siento realmente inútil.", true], ["Siento que soy una persona digna de aprecio, al menos en igual medida que los demás.", false], ["Desearía sentir más respeto por mí misma.", true], ["Casi siempre tiendo a pensar que soy una fracasada.", true], ["Tengo una actitud positiva hacia mí misma.", false]], "indicadores": [["Límites puestos", "Número de veces que dijiste no, pediste algo o te retiraste de una situación.", "Sube cada semana"], ["Retractaciones", "Veces que cediste después de haber puesto un límite.", "Baja hacia 0"], ["Impulsos no actuados", "Veces que sentiste el impulso (escribir, revisar, reclamar) y esperaste los 20 min.", "Sube cada semana"], ["Tiempo de recuperación", "Minutos desde el pico de activación hasta volver a tu ventana de tolerancia.", "Baja al menos 30%"], ["Días de práctica", "Días con respiración de resonancia + registro. La adherencia predice el resultado.", "≥5 de 7"], ["Autocrítica destructiva", "Frecuencia diaria de frases que atacan tu identidad, no tu conducta.", "Baja"], ["Credibilidad de la creencia nueva", "0–100, cada domingo.", "+20 puntos en 6 semanas"]], "plantillas": [{"titulo": "Diario emocional (5 minutos, cada noche)", "campos": ["Emoción principal del día y su intensidad 0–10", "¿Dónde la sentí en el cuerpo?", "Disparador (el hecho objetivo, lo que grabaría una cámara)", "¿Qué necesitaba en ese momento?", "¿Qué hice? ¿Fue desde emoción o desde valores?", "Una cosa que hice hoy coherente con quien quiero ser"]}, {"titulo": "Registro de pensamientos (7 columnas)", "campos": ["1. Situación (hecho observable)", "2. Emoción e intensidad 0–100", "3. Pensamiento automático (frase textual)", "4. Distorsión cognitiva", "5. Evidencia a favor / evidencia en contra", "6. Pensamiento alternativo realista", "7. Emoción reevaluada 0–100"]}, {"titulo": "Bitácora de límites", "campos": ["Fecha y situación", "Dificultad prevista 0–100", "Frase exacta que dije", "Ansiedad antes / durante / después", "Culpa a los 0, 10, 20, 30 y 40 minutos", "¿Me retracté? ¿Compensé de alguna forma?", "Qué temía que pasara / qué pasó realmente"]}, {"titulo": "Registro de evidencia contraria", "campos": ["Creencia nueva que estoy construyendo", "Hecho pequeño de hoy que la respalda (1–3)", "Credibilidad de la creencia nueva 0–100 (cada domingo)"]}, {"titulo": "Hechos vs. interpretaciones", "campos": ["HECHO: lo que grabaría una cámara, sin adjetivos", "INTERPRETACIÓN: la historia que mi mente construyó", "Otras 2 interpretaciones posibles del mismo hecho", "¿Qué información me falta realmente?"]}, {"titulo": "Revisión semanal (domingos, 20 min)", "campos": ["Indicadores de la semana (los 7 de la sección Métricas)", "¿Qué practiqué y qué salté? ¿Por qué?", "El momento de la semana en que fui más coherente conmigo", "El momento en que menos lo fui — sin castigo, solo dato", "Ajuste para la semana siguiente (uno solo)"]}], "anexo": [{"marco": "TCC — Terapia Cognitivo-Conductual (Beck, Ellis)", "usa": "Registro de pensamientos de 7 columnas, examen de evidencia, descenso en flecha, exposición gradual, registro de datos positivos.", "evidencia": "El cuerpo de evidencia más extenso en psicoterapia; tratamiento de primera línea para depresión y trastornos de ansiedad en las principales guías clínicas. El mecanismo activo es la modificación de creencias mediante experiencia, no mediante argumento."}, {"marco": "DBT — Terapia Dialéctico-Conductual (Linehan)", "usa": "TIPP, tolerancia al malestar, acción opuesta, DEAR MAN / GIVE / FAST.", "evidencia": "Desarrollada para desregulación emocional grave y con eficacia demostrada en múltiples ensayos; sus módulos de habilidades se usan hoy de forma transdiagnóstica. El entrenamiento asertivo, incluido en DBT y TCC, cuenta con ECA que muestran mejoras en autoestima, ansiedad social y bienestar general."}, {"marco": "ACT — Aceptación y Compromiso (Hayes)", "usa": "Clarificación de valores, defusión cognitiva, acción comprometida, aceptación de la incertidumbre.", "evidencia": "Terapia contextual de tercera ola con soporte empírico en ansiedad, depresión, dolor crónico y estrés. Su aporte específico aquí: cambia el objetivo de «sentir menos» a «actuar según valores aunque sienta»."}, {"marco": "CFT / MSC — Compasión (Gilbert; Neff & Germer)", "usa": "Pausa de autocompasión, carta compasiva, modelo de los tres sistemas de regulación.", "evidencia": "Un metaanálisis de 27 ECA de intervenciones de autocompasión encontró aumentos de autocompasión y reducciones de psicopatología con tamaños de efecto medios a grandes; otro de 21 ECA de intervenciones largas mostró mejoras en satisfacción vital y reducciones en depresión, ansiedad y malestar psicológico. Relevante para tu objetivo: la autocompasión predice bienestar de forma más estable que la autoestima porque no depende de la comparación social."}, {"marco": "Terapia de Esquemas e Imagery Rescripting (Young, Arntz)", "usa": "Identificación de esquemas tempranos, rescripting de recuerdos, descenso en flecha hasta la creencia nuclear.", "evidencia": "Metaanálisis actualizados muestran eficacia del rescripting de imágenes en trastornos asociados a recuerdos aversivos, con mejoras en rumiación, imágenes intrusivas, indefensión y creencias nucleares desadaptativas. Investigación de 2024 vincula los esquemas de apego y autonomía con las dificultades de regulación emocional, y señala el trabajo sobre los recuerdos que los sostienen como vía de intervención."}, {"marco": "EFT — Terapia Focalizada en la Emoción (Greenberg)", "usa": "Trabajo de dos sillas para la autocrítica escindida.", "evidencia": "El trabajo de dos sillas es una de las tareas terapéuticas más estudiadas experimentalmente; produce ablandamiento del crítico interno y aumento de la autocompasión en estudios de proceso-resultado."}, {"marco": "HRV Biofeedback / Respiración de resonancia (Lehrer, Gevirtz)", "usa": "Respiración a 5,5–6 rpm, 10–20 min diarios.", "evidencia": "Respirar a la frecuencia de resonancia (~0,1 Hz) produce oscilaciones de alta amplitud en la frecuencia cardíaca y estimula el barorreflejo. Revisiones sistemáticas y metaanálisis reportan efectos sobre ansiedad, depresión, estrés, sueño y rendimiento cognitivo. Es la técnica de neuroterapia más accesible y con mejor relación evidencia/coste del plan."}, {"marco": "Enfoques somáticos y EMDR (Levine, Ogden, Shapiro)", "usa": "Ventana de tolerancia, orientación, pendulación, titración, lugar seguro, abrazo mariposa.", "evidencia": "EMDR es tratamiento recomendado para TEPT en guías internacionales; los procedimientos de estabilización y recursos que se usan aquí provienen de su fase preparatoria. Los enfoques sensoriomotrices tienen menos ensayos controlados que TCC o DBT, pero el modelo de ventana de tolerancia es un marco clínico ampliamente adoptado y clínicamente muy útil."}, {"marco": "Activación conductual (Jacobson, Martell)", "usa": "Micro-compromisos, programación de actividades, dominio y agrado.", "evidencia": "Tan eficaz como la TCC completa para depresión en ensayos comparativos, con menor complejidad. Su lógica —actuar primero, sentir después— es la corrección más importante al mito de que hay que «sentirse capaz» antes de actuar."}, {"marco": "Escritura expresiva (Pennebaker)", "usa": "Protocolo de 4 días × 20 min.", "evidencia": "Uno de los paradigmas más replicados en psicología de la salud, con efectos pequeños pero consistentes en malestar psicológico e indicadores de salud física. Mecanismo propuesto: organización narrativa de la experiencia emocional."}, {"marco": "Exposición al espejo / imagen corporal", "usa": "Exposición corporal no evaluativa.", "evidencia": "Los metaanálisis reportan efecto medio sobre preocupaciones actitudinales de imagen corporal y efecto grande sobre las conductas de evitación y comprobación, con heterogeneidad significativa y muestras pequeñas. Se han reportado eventos adversos, por lo que se recomienda acompañamiento en población clínica."}, {"marco": "Sueño y reactividad emocional", "usa": "Higiene de sueño con principios de TCC-I.", "evidencia": "La privación de sueño se asocia a una amplificación marcada de la respuesta amigdalar ante estímulos negativos y a un desacoplamiento funcional con la corteza prefrontal medial. Es decir: el mismo evento produce más reacción y menos freno."}], "advertenciaAfirmaciones": "Nota sobre «pensamiento positivo»: existe evidencia experimental de que repetir afirmaciones positivas que no se creen empeora el estado de ánimo y la autoestima en personas con baja autoestima, mientras que ayuda ligeramente a quienes ya la tienen alta. Por eso en este plan el trabajo con la voz interior no consiste en sustituir frases negativas por frases grandilocuentes, sino en tres vías: reestructurar con frases creíbles y conductuales, defusionar del pensamiento, o responder con autocompasión.", "fuentes": [["Efectividad de la exposición corporal para la alteración de la imagen corporal: metaanálisis", "https://www.sciencedirect.com/science/article/abs/pii/S0005796725001986"], ["Moderadores de la exposición al espejo: revisión sistemática y metaanálisis", "https://pubmed.ncbi.nlm.nih.gov/33100189/"], ["Neff, K. — Self-Compassion: Theory, Method, Research and Intervention (Annual Review of Psychology)", "https://self-compassion.org/wp-content/uploads/2023/01/Neff-2023.pdf"], ["Investigación sobre autocompasión — recopilación de estudios", "https://self-compassion.org/the-research/"], ["ECA de una intervención breve de autocompasión para perfeccionismo, ansiedad, depresión e imagen corporal", "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8695611/"], ["HRV: de la muerte cerebral a la respiración de resonancia a 6 respiraciones por minuto", "https://www.sciencedirect.com/science/article/abs/pii/S1388245719313021"], ["Eficacia y metodología de intervenciones remotas de biofeedback de HRV: revisión sistemática y metaanálisis", "https://link.springer.com/article/10.1007/s10484-025-09750-w"], ["Impacto de la respiración a frecuencia de resonancia sobre HRV, presión arterial y estado de ánimo", "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5575449/"], ["Metaanálisis de ECA sobre la eficacia del entrenamiento asertivo para la ansiedad social", "https://link.springer.com/article/10.1007/s41042-026-00297-7"], ["Eficacia de la TCC transdiagnóstica para la asertividad: ensayo controlado aleatorizado", "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC10235435/"], ["Entrenamiento en resolución de problemas y asertividad sobre autoestima y salud mental: ensayo clínico aleatorizado", "https://pmc.ncbi.nlm.nih.gov/articles/PMC10084687/"], ["Eficacia del imagery rescripting en trastornos asociados a recuerdos aversivos: metaanálisis actualizado", "https://www.sciencedirect.com/science/article/abs/pii/S088761852300110X"], ["Esquemas tempranos desadaptativos, dificultades de regulación emocional y alexitimia: revisión sistemática y metaanálisis (2024)", "https://onlinelibrary.wiley.com/doi/10.1002/cpp.2914"]]};
+const PHC = {f1:'var(--f1)',f2:'var(--f2)',f3:'var(--f3)',f4:'var(--f4)'};
+const KEY='plan-coherencia-v1';
+
+/* ============ estado ============ */
+let S; try{ S = JSON.parse(localStorage.getItem(KEY)||'null'); }catch(e){}
+S = S || {act:{},rses:{},week:{},tpl:{},theme:'light'};
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}}
+function A(id){ if(!S.act[id]) S.act[id]={done:false,date:'',notes:'',steps:{}}; return S.act[id]; }
+
+/* ============ IndexedDB para evidencia ============ */
+let db=null;
+const hasIDB = (typeof indexedDB !== 'undefined' && indexedDB);
+function idb(){return new Promise((res,rej)=>{ if(db)return res(db); if(!hasIDB)return rej('no-idb');
+  const r=indexedDB.open('plan-evidencia',1);
+  r.onupgradeneeded=e=>{const d=e.target.result; if(!d.objectStoreNames.contains('ev')){const s=d.createObjectStore('ev',{keyPath:'id'}); s.createIndex('actId','actId');}};
+  r.onsuccess=e=>{db=e.target.result;res(db)}; r.onerror=e=>rej(e);});}
+const uid=()=> (self.crypto&&crypto.randomUUID)?crypto.randomUUID():'id-'+Date.now()+'-'+Math.random().toString(16).slice(2);
+async function evAdd(actId,file){try{const d=await idb();return new Promise((res,rej)=>{
+  const tx=d.transaction('ev','readwrite');
+  tx.objectStore('ev').add({id:uid(),actId,name:file.name,type:file.type,size:file.size,blob:file,added:new Date().toISOString()});
+  tx.oncomplete=res;tx.onerror=rej;});}catch(e){toast('Este navegador no permite guardar archivos aquí');}}
+async function evList(actId){try{const d=await idb();return await new Promise((res,rej)=>{
+  const rq=d.transaction('ev').objectStore('ev').index('actId').getAll(actId);
+  rq.onsuccess=()=>res(rq.result);rq.onerror=rej;});}catch(e){return [];}}
+async function evAll(){try{const d=await idb();return await new Promise((res,rej)=>{
+  const rq=d.transaction('ev').objectStore('ev').getAll(); rq.onsuccess=()=>res(rq.result);rq.onerror=rej;});}catch(e){return [];}}
+async function evDel(id){try{const d=await idb();return await new Promise((res,rej)=>{
+  const tx=d.transaction('ev','readwrite');tx.objectStore('ev').delete(id);tx.oncomplete=res;tx.onerror=rej;});}catch(e){}}
+
+/* ============ helpers ============ */
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),1900);}
+const allActs=()=>DATA.fases.flatMap(f=>f.actividades);
+function pct(){const a=allActs();const d=a.filter(x=>A(x.id).done).length;return {d,t:a.length,p:a.length?Math.round(d/a.length*100):0};}
+
+/* ============ navegación ============ */
+const PAGES=[
+  {id:'inicio',label:'Inicio',grp:'Empezar aquí'},
+  ...DATA.fases.map(f=>({id:f.id,label:'Fase '+f.num+' · '+f.titulo,dot:PHC[f.id],grp:'Las cuatro fases'})),
+  {id:'habitos',label:'Hábitos de soporte',grp:'Estructura'},
+  {id:'cronograma',label:'Cronograma 12 semanas',grp:'Estructura'},
+  {id:'metricas',label:'Métricas y escalas',grp:'Estructura'},
+  {id:'plantillas',label:'Plantillas de registro',grp:'Estructura'},
+  {id:'anexo',label:'Anexo teórico',grp:'Respaldo'},
+  {id:'datos',label:'Mis datos',grp:'Respaldo'},
+];
+function buildNav(){
+  const n=document.getElementById('nav');let last='';
+  n.innerHTML=PAGES.map(p=>{let s='';if(p.grp!==last){s='<div class="sep">'+p.grp+'</div>';last=p.grp;}
+    return s+'<a href="#'+p.id+'" data-p="'+p.id+'">'+(p.dot?'<i class="dot" style="background:'+p.dot+'"></i>':'')+esc(p.label)+'</a>';}).join('');
+  n.onclick=e=>{const a=e.target.closest('a');if(a)go(a.dataset.p);};
+}
+function go(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.toggle('on',p.id==='pg-'+id));
+  document.querySelectorAll('.nav a').forEach(a=>a.classList.toggle('on',a.dataset.p===id));
+  window.scrollTo({top:0,behavior:'instant'});
+  history.replaceState(null,'','#'+id);
+}
+
+/* ============ render actividad ============ */
+function actHTML(a,fase){
+  const st=A(a.id);
+  const oTag=a.origen==='nuevo'?'<span class="tag nuevo">Añadido</span>':(a.origen==='enriquecido'?'<span class="tag enr">Ampliado</span>':'');
+  return `<div class="act ${st.done?'done':''}" id="act-${a.id}" style="--phc:${PHC[fase.id]}">
+    <div class="ahead" data-toggle="${a.id}">
+      <div class="chk ${st.done?'on':''}" data-chk="${a.id}"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+      <div style="flex:1;min-width:0">
+        <h3>${esc(a.titulo)}</h3>
+        <div class="tags"><span class="tag marco">${esc(a.marco)}</span>${oTag}<span class="tag">${esc(a.dosis)}</span></div>
+      </div>
+      <div class="caret">▼</div>
+    </div>
+    <div class="abody">
+      <div class="lab">Por qué funciona</div><div class="why">${esc(a.porque)}</div>
+      <div class="lab">Cómo se hace</div>
+      <ol class="steps">${a.pasos.map(p=>'<li>'+esc(p)+'</li>').join('')}</ol>
+      ${a.nota?'<div class="note">'+esc(a.nota)+'</div>':''}
+      <div class="meta">
+        <div class="m"><div class="k">Dosis</div><div class="v">${esc(a.dosis)}</div></div>
+        <div class="m"><div class="k">Señal de que está funcionando</div><div class="v">${esc(a.senal)}</div></div>
+      </div>
+      <div class="lab">Mis notas</div>
+      <textarea rows="3" placeholder="Qué noté, qué me costó, qué cambió…" data-notes="${a.id}">${esc(st.notes||'')}</textarea>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:5px">
+        <span class="saved" id="sv-${a.id}">Guardado</span>
+        <span style="font-size:12px;color:var(--ink-faint)">${st.date?'Completada el '+st.date:''}</span>
+      </div>
+      <div class="lab">Evidencia</div>
+      <div class="drop" data-drop="${a.id}">Arrastra aquí una foto, audio o documento — o haz clic para elegir</div>
+      <div class="evs" id="evs-${a.id}"></div>
+    </div>
+  </div>`;
+}
+
+/* ============ páginas ============ */
+function pgInicio(){
+  const p=pct();
+  return `<div class="eyebrow">Plan personal · ${esc(DATA.meta.fecha)}</div>
+  <h1 class="ph">${esc(DATA.meta.titulo)}</h1>
+  <p class="psub">${esc(DATA.meta.bajada)}</p>
+  <div class="card"><p style="margin:0;font-size:15.5px;color:var(--ink-soft)">${esc(DATA.intro)}</p></div>
+  <div class="grid2" style="margin-top:16px">
+    <div class="stat"><div class="n" id="stPct">${p.p}%</div><div class="t">Completado</div></div>
+    <div class="stat"><div class="n" id="stDone">${p.d}/${p.t}</div><div class="t">Prácticas</div></div>
+    <div class="stat"><div class="n">${DATA.fases.length}</div><div class="t">Fases · 12 semanas</div></div>
+  </div>
+  <div class="hr"></div>
+  <h2 style="font-size:19px">Cómo usar esto</h2>
+  <ul class="plain">
+    <li>Cada fase dura tres semanas. No corras: la adherencia predice el resultado mucho mejor que la intensidad.</li>
+    <li>Marca cada práctica cuando la hayas <b>hecho</b>, no cuando la hayas leído. Puedes desmarcarla si vuelves a ella.</li>
+    <li>Usa el campo de notas y sube evidencia: fotos de tu cuaderno, audios, capturas del registro. Todo se guarda en este navegador.</li>
+    <li>Los domingos, revisión de 20 minutos en <b>Métricas</b>. Semanas 1, 6 y 12: escalas completas.</li>
+    <li>Haz respaldo desde <b>Mis datos</b> cada tanto. Si borras los datos del navegador, se pierde el progreso.</li>
+  </ul>
+  <div class="callout warnbox"><b>Antes de empezar.</b> ${esc(DATA.aviso)}</div>
+  <div class="btnrow"><button class="btn" onclick="go('f1')">Empezar por la Fase 1 →</button>
+  <button class="btn ghost" onclick="window.print()">Imprimir todo</button></div>`;
+}
+function pgFase(f){
+  return `<div class="eyebrow" style="color:${PHC[f.id]}">Fase ${f.num} · ${esc(f.semanas)}</div>
+  <h1 class="ph">${esc(f.titulo)}</h1>
+  <p class="psub">${esc(f.sub)}</p>
+  <div class="card" style="border-left:3px solid ${PHC[f.id]}">
+    <div class="lab" style="margin-top:0">Objetivo</div><div>${esc(f.objetivo)}</div>
+    <div class="lab">Principio</div><div style="color:var(--ink-soft)">${esc(f.principio)}</div>
+  </div>
+  <div class="bar" style="margin:18px 0 4px"><i id="bar-${f.id}" style="width:0;background:${PHC[f.id]}"></i></div>
+  <div style="font-size:12.5px;color:var(--ink-faint)" id="cnt-${f.id}"></div>
+  <div style="margin-top:16px">${f.actividades.map(a=>actHTML(a,f)).join('')}</div>
+  <div class="card"><div class="lab" style="margin-top:0">Cómo sé que puedo pasar a la siguiente fase</div>
+  <ul class="plain">${f.metricas.map(m=>'<li>'+esc(m)+'</li>').join('')}</ul></div>`;
+}
+function pgHabitos(){
+  return `<div class="eyebrow">Transversal · las 12 semanas</div><h1 class="ph">Hábitos de soporte</h1>
+  <p class="psub">Estos no son extras. Son las condiciones fisiológicas que hacen que todo lo demás sea posible.</p>
+  ${DATA.habitos.map(h=>`<div class="card"><h3 style="font-size:17px">${esc(h.titulo)}</h3>
+    <div class="tags" style="margin-top:7px"><span class="tag">${esc(h.marco)}</span></div>
+    <div class="lab">Por qué</div><div class="why">${esc(h.porque)}</div>
+    <div class="lab">Cómo</div><ol class="steps">${h.pasos.map(p=>'<li>'+esc(p)+'</li>').join('')}</ol></div>`).join('')}`;
+}
+function pgCronograma(){
+  return `<div class="eyebrow">Estructura</div><h1 class="ph">Cronograma de 12 semanas</h1>
+  <p class="psub">Una ruta, no una cárcel. Si una semana se cae, retomas donde estabas: no reinicias.</p>
+  <div class="card" style="padding:6px 10px"><table><thead><tr><th>Sem</th><th>Fase</th><th>Foco de la semana</th><th>Al terminar</th></tr></thead>
+  <tbody>${DATA.cronograma.map(r=>`<tr><td><span class="wk">${r[0]}</span></td><td style="font-size:13px;color:var(--ink-faint);font-weight:600">${esc(r[1])}</td><td>${esc(r[2])}</td><td style="color:var(--ink-soft);font-size:13.5px">${esc(r[3])}</td></tr>`).join('')}</tbody></table></div>`;
+}
+function pgMetricas(){
+  return `<div class="eyebrow">Seguimiento</div><h1 class="ph">Métricas y escalas</h1>
+  <p class="psub">${esc(DATA.escalasIntro)}</p>
+  <div class="card">
+    <h3 style="font-size:17px">Escala de autoestima de Rosenberg</h3>
+    <p style="color:var(--ink-soft);font-size:14px;margin:7px 0 0">10 ítems. Responde según cómo te sientes habitualmente: 4 = muy de acuerdo · 3 = de acuerdo · 2 = en desacuerdo · 1 = muy en desacuerdo. Rango 10–40. Por debajo de 25 se considera autoestima baja; 26–29 media; 30 o más, alta.</p>
+    <div class="tabs" id="rsesTabs">
+      <button data-w="1" class="on">Semana 1</button><button data-w="6">Semana 6</button><button data-w="12">Semana 12</button>
+    </div>
+    <div id="rsesBody"></div>
+    <div class="score"><div><div class="n" id="rsesScore">—</div><div style="font-size:11.5px;color:var(--ink-faint);text-transform:uppercase;letter-spacing:.08em;font-weight:700">Puntaje</div></div>
+      <div id="rsesInterp" style="font-size:14px;color:var(--ink-soft);flex:1"></div></div>
+    <svg class="spark" id="rsesSpark" viewBox="0 0 400 110" preserveAspectRatio="none"></svg>
+  </div>
+  <div class="card">
+    <h3 style="font-size:17px">Indicadores conductuales semanales</h3>
+    <p style="color:var(--ink-soft);font-size:14px;margin:7px 0 0">Los domingos, 20 minutos. Estos números son más honestos que la sensación.</p>
+    <div class="tabs" id="wkTabs">${Array.from({length:12},(_,i)=>`<button data-w="${i+1}" class="${i===0?'on':''}">S${i+1}</button>`).join('')}</div>
+    <div id="wkBody"></div>
+  </div>
+  <div class="card"><h3 style="font-size:17px">Qué mide cada indicador</h3>
+  <table><thead><tr><th>Indicador</th><th>Qué cuenta</th><th>Dirección esperada</th></tr></thead>
+  <tbody>${DATA.indicadores.map(i=>`<tr><td style="font-weight:600">${esc(i[0])}</td><td style="color:var(--ink-soft)">${esc(i[1])}</td><td style="font-size:13.5px">${esc(i[2])}</td></tr>`).join('')}</tbody></table></div>`;
+}
+function pgPlantillas(){
+  return `<div class="eyebrow">Herramientas</div><h1 class="ph">Plantillas de registro</h1>
+  <p class="psub">Cópialas a tu cuaderno o escribe directamente aquí. Cada entrada queda guardada con su fecha.</p>
+  ${DATA.plantillas.map((t,i)=>`<div class="card">
+    <h3 style="font-size:17px">${esc(t.titulo)}</h3>
+    <ul class="tpl-fields" style="margin-top:9px">${t.campos.map(c=>'<li>'+esc(c)+'</li>').join('')}</ul>
+    <div class="lab">Nueva entrada</div>
+    <textarea rows="4" id="tplIn-${i}" placeholder="Escribe aquí siguiendo los campos de arriba…"></textarea>
+    <div class="btnrow"><button class="btn sm" onclick="tplAdd(${i})">Guardar entrada</button></div>
+    <div id="tplList-${i}" style="margin-top:12px"></div></div>`).join('')}`;
+}
+function pgAnexo(){
+  return `<div class="eyebrow">Respaldo</div><h1 class="ph">Anexo teórico</h1>
+  <p class="psub">De dónde viene cada técnica y qué dice la evidencia. Para que sepas que no estás haciendo cosas al azar.</p>
+  <div class="callout"><b>Sobre las afirmaciones positivas.</b> ${esc(DATA.advertenciaAfirmaciones)}</div>
+  ${DATA.anexo.map(m=>`<div class="card"><h3 style="font-size:16.5px">${esc(m.marco)}</h3>
+    <div class="lab">Qué usa este plan de aquí</div><div>${esc(m.usa)}</div>
+    <div class="lab">Evidencia</div><div class="why">${esc(m.evidencia)}</div></div>`).join('')}
+  <div class="card"><h3 style="font-size:17px">Fuentes consultadas</h3>
+  <ol style="padding-left:20px;font-size:13.5px;line-height:1.7;margin:10px 0 0">
+  ${DATA.fuentes.map(f=>`<li style="margin-bottom:5px"><a href="${esc(f[1])}" target="_blank" rel="noopener">${esc(f[0])}</a></li>`).join('')}
+  </ol></div>
+  <div class="callout warnbox"><b>Recordatorio.</b> ${esc(DATA.aviso)}</div>`;
+}
+function pgDatos(){
+  return `<div class="eyebrow">Respaldo</div><h1 class="ph">Mis datos</h1>
+  <p class="psub">Todo se guarda solo en este navegador y en este computador. Nada viaja a ningún servidor.</p>
+  <div class="card"><h3 style="font-size:17px">Respaldo</h3>
+  <p style="color:var(--ink-soft);font-size:14px">Descarga un archivo con tu progreso, notas, escalas, entradas y evidencia. Guárdalo donde quieras y restáuralo cuando lo necesites.</p>
+  <div class="btnrow">
+    <button class="btn" onclick="exportAll()">Descargar respaldo</button>
+    <button class="btn ghost" onclick="document.getElementById('impFile').click()">Restaurar desde archivo</button>
+    <input type="file" id="impFile" accept="application/json" style="display:none" onchange="importAll(this)">
+    <button class="btn ghost" onclick="window.print()">Imprimir / guardar como PDF</button>
+  </div></div>
+  <div class="card"><h3 style="font-size:17px">Empezar de cero</h3>
+  <p style="color:var(--ink-soft);font-size:14px">Borra todo el progreso, notas y evidencia. No se puede deshacer.</p>
+  <div class="btnrow"><button class="btn ghost" style="color:var(--warn);border-color:var(--warn)" onclick="wipe()">Borrar todos mis datos</button></div></div>
+  <div class="card"><h3 style="font-size:17px">Resumen actual</h3><div id="resumen"></div></div>`;
+}
+
+/* ============ montaje ============ */
+function render(){
+  const m=document.getElementById('main');
+  const P=[['inicio',pgInicio()],...DATA.fases.map(f=>[f.id,pgFase(f)]),
+    ['habitos',pgHabitos()],['cronograma',pgCronograma()],['metricas',pgMetricas()],
+    ['plantillas',pgPlantillas()],['anexo',pgAnexo()],['datos',pgDatos()]];
+  m.innerHTML=P.map(([id,html])=>`<section class="page" id="pg-${id}">${html}</section>`).join('');
+  buildNav(); wire(); refresh();
+  const h=(location.hash||'#inicio').slice(1);
+  go(PAGES.some(p=>p.id===h)?h:'inicio');
+}
+function wire(){
+  document.getElementById('main').addEventListener('click',e=>{
+    const c=e.target.closest('[data-chk]');
+    if(c){e.stopPropagation();const id=c.dataset.chk;const st=A(id);st.done=!st.done;
+      st.date=st.done?new Date().toLocaleDateString('es-CO',{day:'numeric',month:'short',year:'numeric'}):'';
+      save();c.classList.toggle('on',st.done);document.getElementById('act-'+id).classList.toggle('done',st.done);
+      refresh();if(st.done)toast('Práctica completada');return;}
+    const t=e.target.closest('[data-toggle]');
+    if(t){const el=document.getElementById('act-'+t.dataset.toggle);el.classList.toggle('open');
+      if(el.classList.contains('open'))paintEv(t.dataset.toggle);return;}
+    const d=e.target.closest('[data-drop]');
+    if(d){pickFor=d.dataset.drop;document.getElementById('filepick').click();return;}
+    const r=e.target.closest('[data-rm]');
+    if(r){evDel(r.dataset.rm).then(()=>paintEv(r.dataset.act));return;}
+  });
+  document.getElementById('main').addEventListener('input',e=>{
+    const n=e.target.dataset.notes;
+    if(n){A(n).notes=e.target.value;save();const s=document.getElementById('sv-'+n);s.classList.add('show');
+      clearTimeout(s._t);s._t=setTimeout(()=>s.classList.remove('show'),1300);}
+  });
+  document.querySelectorAll('[data-drop]').forEach(el=>{
+    el.addEventListener('dragover',e=>{e.preventDefault();el.classList.add('over')});
+    el.addEventListener('dragleave',()=>el.classList.remove('over'));
+    el.addEventListener('drop',async e=>{e.preventDefault();el.classList.remove('over');
+      for(const f of e.dataTransfer.files) await evAdd(el.dataset.drop,f);
+      paintEv(el.dataset.drop);toast('Evidencia guardada');});
+  });
+  document.getElementById('filepick').onchange=async function(){
+    for(const f of this.files) await evAdd(pickFor,f);
+    this.value='';paintEv(pickFor);toast('Evidencia guardada');};
+  // escalas
+  const rt=document.getElementById('rsesTabs');
+  if(rt){rt.onclick=e=>{const b=e.target.closest('button');if(!b)return;
+    rt.querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));paintRses(b.dataset.w);};
+    paintRses('1');}
+  const wt=document.getElementById('wkTabs');
+  if(wt){wt.onclick=e=>{const b=e.target.closest('button');if(!b)return;
+    wt.querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));paintWeek(b.dataset.w);};
+    paintWeek('1');}
+  DATA.plantillas.forEach((_,i)=>paintTpl(i));
+  paintResumen();
+}
+let pickFor=null;
+
+async function paintEv(id){
+  const box=document.getElementById('evs-'+id); if(!box)return;
+  const list=await evList(id);
+  box.innerHTML=list.map(f=>{
+    const isImg=(f.type||'').startsWith('image/');
+    const url=isImg?URL.createObjectURL(f.blob):'';
+    const icon=(f.type||'').startsWith('audio')?'🎧':((f.type||'').includes('pdf')?'📄':'📎');
+    return `<div class="ev">${isImg?`<img src="${url}">`:`<div class="fx">${icon}</div>`}
+      <div class="nm" title="${esc(f.name)}">${esc(f.name)}</div>
+      <button class="rm" data-rm="${f.id}" data-act="${id}" title="Eliminar">×</button></div>`;}).join('')
+    || '<div style="font-size:12.5px;color:var(--ink-faint)">Sin evidencia todavía.</div>';
+}
+
+/* ---- Rosenberg ---- */
+function paintRses(w){
+  const cur=(S.rses[w]||[]);
+  document.getElementById('rsesBody').innerHTML=DATA.rses.map((q,i)=>`<div class="q">
+    <div class="qt">${i+1}. ${esc(q[0])}${q[1]?' <span style="color:var(--ink-faint);font-size:12px">(inverso)</span>':''}</div>
+    <div class="opts">${[4,3,2,1].map(v=>`<label><input type="radio" name="r${w}-${i}" value="${v}" ${cur[i]==v?'checked':''} onchange="setRses('${w}',${i},${v})"><span>${v}</span></label>`).join('')}</div></div>`).join('');
+  scoreRses(w);
+}
+function setRses(w,i,v){ if(!S.rses[w])S.rses[w]=[]; S.rses[w][i]=v; save(); scoreRses(w); }
+function scoreRses(w){
+  const cur=S.rses[w]||[];const full=cur.filter(x=>x).length===10;
+  let s=0; DATA.rses.forEach((q,i)=>{const v=cur[i];if(v)s+=q[1]?(5-v):v;});
+  document.getElementById('rsesScore').textContent=full?s:(cur.filter(x=>x).length+'/10');
+  document.getElementById('rsesInterp').textContent=full
+    ? (s<26?'Rango de autoestima baja. Es un punto de partida, no un veredicto: es exactamente lo que este plan trabaja.'
+      : s<30?'Rango medio. Hay base sobre la que construir; el trabajo está en la estabilidad ante el error y el rechazo.'
+      : 'Rango alto. Cuida que no dependa de logros o de la aprobación externa — ahí es donde la autocompasión sostiene.')
+    : 'Responde los 10 ítems para ver tu puntaje.';
+  sparkRses();
+}
+function sparkRses(){
+  const svg=document.getElementById('rsesSpark');if(!svg)return;
+  const pts=['1','6','12'].map(w=>{const c=S.rses[w]||[];if(c.filter(x=>x).length<10)return null;
+    let s=0;DATA.rses.forEach((q,i)=>s+=q[1]?(5-c[i]):c[i]);return s;});
+  const have=pts.filter(p=>p!==null).length;
+  if(have<1){svg.innerHTML='<text x="200" y="58" text-anchor="middle" fill="var(--ink-faint)" font-size="12" font-family="sans-serif">Completa la escala para ver tu curva</text>';return;}
+  const X=[40,200,360], y=v=>100-((v-10)/30)*82;
+  let path='',dots='',labs='';
+  pts.forEach((v,i)=>{ if(v===null)return;
+    path+=(path?'L':'M')+X[i]+' '+y(v).toFixed(1)+' ';
+    dots+=`<circle cx="${X[i]}" cy="${y(v).toFixed(1)}" r="4.5" fill="var(--accent)"/>`;
+    labs+=`<text x="${X[i]}" y="${(y(v)-11).toFixed(1)}" text-anchor="middle" fill="var(--ink)" font-size="12" font-weight="700" font-family="sans-serif">${v}</text>`;});
+  const axis=X.map((x,i)=>`<text x="${x}" y="108" text-anchor="middle" fill="var(--ink-faint)" font-size="10" font-family="sans-serif">Sem ${['1','6','12'][i]}</text>`).join('');
+  svg.innerHTML=`<line x1="20" y1="${y(26)}" x2="380" y2="${y(26)}" stroke="var(--line)" stroke-dasharray="3 3"/>
+    <text x="382" y="${y(26)+3}" fill="var(--ink-faint)" font-size="9" font-family="sans-serif">26</text>
+    <path d="${path}" fill="none" stroke="var(--accent)" stroke-width="2.2" stroke-linecap="round"/>${dots}${labs}${axis}`;
+}
+
+/* ---- indicadores semanales ---- */
+const WKF=[['limites','Límites puestos'],['retract','Retractaciones'],['impulsos','Impulsos no actuados'],
+  ['recup','Tiempo de recuperación (min)'],['practica','Días de práctica (0–7)'],['critica','Autocrítica destructiva (0–10)'],
+  ['cred','Credibilidad creencia nueva (0–100)']];
+function paintWeek(w){
+  const d=S.week[w]||{};
+  document.getElementById('wkBody').innerHTML=`<div class="grid2" style="margin-top:12px">
+    ${WKF.map(f=>`<div><div class="lab" style="margin:0 0 4px">${f[1]}</div>
+      <input type="number" value="${d[f[0]]??''}" onchange="setWeek('${w}','${f[0]}',this.value)"></div>`).join('')}
+    </div><div class="lab">Nota de la semana</div>
+    <textarea rows="3" onchange="setWeek('${w}','nota',this.value)" placeholder="El momento más coherente conmigo esta semana fue…">${esc(d.nota||'')}</textarea>`;
+}
+function setWeek(w,k,v){ if(!S.week[w])S.week[w]={}; S.week[w][k]=v; save(); paintResumen(); }
+
+/* ---- plantillas ---- */
+function tplAdd(i){
+  const ta=document.getElementById('tplIn-'+i); const v=ta.value.trim(); if(!v)return;
+  if(!S.tpl[i])S.tpl[i]=[];
+  S.tpl[i].unshift({d:new Date().toLocaleString('es-CO',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'}),t:v});
+  save(); ta.value=''; paintTpl(i); toast('Entrada guardada');
+}
+function tplDel(i,j){ S.tpl[i].splice(j,1); save(); paintTpl(i); }
+function paintTpl(i){
+  const box=document.getElementById('tplList-'+i); if(!box)return;
+  const l=S.tpl[i]||[];
+  box.innerHTML=l.length?l.map((e,j)=>`<div style="border:1px solid var(--line);border-radius:10px;padding:10px 13px;margin-bottom:8px;background:var(--bg)">
+    <div style="display:flex;justify-content:space-between;gap:10px;align-items:center">
+      <span style="font-size:11.5px;color:var(--ink-faint);font-weight:600">${esc(e.d)}</span>
+      <button class="btn ghost sm" onclick="tplDel(${i},${j})">Borrar</button></div>
+    <div style="white-space:pre-wrap;font-size:14px;margin-top:6px">${esc(e.t)}</div></div>`).join('')
+    :'<div style="font-size:12.5px;color:var(--ink-faint)">Todavía no hay entradas.</div>';
+}
+
+/* ---- resumen / progreso ---- */
+function refresh(){
+  const p=pct();
+  document.getElementById('pctBig').textContent=p.p+'%';
+  document.getElementById('barAll').style.width=p.p+'%';
+  document.getElementById('subAll').textContent=p.d+' de '+p.t+' prácticas';
+  const a=document.getElementById('stPct'),b=document.getElementById('stDone');
+  if(a)a.textContent=p.p+'%'; if(b)b.textContent=p.d+'/'+p.t;
+  DATA.fases.forEach(f=>{
+    const d=f.actividades.filter(x=>A(x.id).done).length;
+    const bar=document.getElementById('bar-'+f.id); const cnt=document.getElementById('cnt-'+f.id);
+    if(bar)bar.style.width=Math.round(d/f.actividades.length*100)+'%';
+    if(cnt)cnt.textContent=d+' de '+f.actividades.length+' prácticas de esta fase';
+  });
+  paintResumen();
+}
+async function paintResumen(){
+  const el=document.getElementById('resumen'); if(!el)return;
+  const p=pct(); const ev=await evAll();
+  const nTpl=Object.values(S.tpl).reduce((a,b)=>a+b.length,0);
+  const nWk=Object.keys(S.week).length;
+  el.innerHTML=`<div class="grid2" style="margin-top:10px">
+    <div class="stat"><div class="n">${p.d}/${p.t}</div><div class="t">Prácticas hechas</div></div>
+    <div class="stat"><div class="n">${ev.length}</div><div class="t">Archivos de evidencia</div></div>
+    <div class="stat"><div class="n">${nTpl}</div><div class="t">Entradas de registro</div></div>
+    <div class="stat"><div class="n">${nWk}</div><div class="t">Semanas registradas</div></div></div>`;
+}
+
+/* ---- export / import ---- */
+async function exportAll(){
+  const ev=await evAll();
+  const files=await Promise.all(ev.map(f=>new Promise(res=>{
+    const r=new FileReader(); r.onload=()=>res({id:f.id,actId:f.actId,name:f.name,type:f.type,added:f.added,data:r.result});
+    r.readAsDataURL(f.blob);})));
+  const blob=new Blob([JSON.stringify({v:1,exported:new Date().toISOString(),state:S,files},null,1)],{type:'application/json'});
+  const a=document.createElement('a'); a.href=URL.createObjectURL(blob);
+  a.download='respaldo-plan-'+new Date().toISOString().slice(0,10)+'.json'; a.click();
+  toast('Respaldo descargado');
+}
+async function importAll(input){
+  const f=input.files[0]; if(!f)return;
+  try{
+    const j=JSON.parse(await f.text());
+    if(!j.state) throw 0;
+    S=j.state; save();
+    if(j.files&&j.files.length){
+      for(const fl of j.files){ const b=await (await fetch(fl.data)).blob();
+        await evAdd(fl.actId,new File([b],fl.name,{type:fl.type})); }
+    }
+    toast('Respaldo restaurado'); render();
+  }catch(e){ toast('No pude leer ese archivo'); }
+  input.value='';
+}
+function wipe(){
+  if(!confirm('¿Borrar todo tu progreso, notas y evidencia? Esto no se puede deshacer.'))return;
+  try{localStorage.removeItem(KEY);}catch(e){}
+  if(hasIDB){try{if(db){db.close();db=null;} indexedDB.deleteDatabase('plan-evidencia');}catch(e){}}
+  S={act:{},rses:{},week:{},tpl:{},theme:S.theme}; save(); render(); toast('Datos borrados');
+}
+
+/* ---- tema ---- */
+function setTheme(t){document.documentElement.setAttribute('data-theme',t);S.theme=t;save();}
+document.getElementById('themeBtn').onclick=()=>setTheme(S.theme==='dark'?'light':'dark');
+setTheme(S.theme||'light');
+
+render();
+</script>
+</body>
+</html>
